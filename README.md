@@ -42,14 +42,6 @@ Then launch anything you want, such as
 rviz
 ```
 
-## ⚠️ Running on Mac (failed)
-
-Ensure that XQuartz is running before you execute this script.
-
-```
-chmod +x mac_run.sh
-./mac_run.sh
-```
 
 # Using GUI
 
