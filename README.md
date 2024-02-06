@@ -13,21 +13,10 @@ This container supports Python both versions 2.7 and 3, to ensure compatibility 
 
 We ensure the ROS environment is always ready by sourcing it in the bashrc file, and we set our working directory to '/capstonerov' in mounted docker container to keep our project organized. 
 
-## How to run
-
-First, install Docker if you don't have it yet.
-
-Then, pull the published Docker Image: [ROS Ubuntu 18.04 Docker Image](https://hub.docker.com/repository/docker/piko314159/ros-ubuntu18.04/tags?page=1&ordering=last_updated), using the folowing command.
-
-
-```bash
-docker pull piko314159/ros-ubuntu18.04:latest
-```
-
 ## Running Docker Container with GUI support (Linux) - working
 
 ```
-sudo docker ps -aq --filter "name=^/capstonerov$" | xargs -r sudo docker rm && sudo docker run -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name capstonerov -v $(pwd):/capstonerov ros-ubuntu18.04
+make run
 ```
 
 To run roscore as background, run
