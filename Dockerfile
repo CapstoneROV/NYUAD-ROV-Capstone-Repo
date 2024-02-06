@@ -1,9 +1,6 @@
 # Use Ubuntu 18.04 as base image
 FROM ubuntu:18.04
 
-# Set environment variables to avoid interactive prompts
-ENV DEBIAN_FRONTEND=noninteractive
-
 # Install Python 2.7 and Python 3
 RUN apt-get update && \
     apt-get install -y python2.7 python3 python-pip python3-pip
@@ -16,6 +13,10 @@ RUN apt-get install -y curl gnupg2 lsb-release && \
 # Install ROS Melodic
 RUN apt-get update && \
     apt-get install -y ros-melodic-desktop-full
+
+# Install additional ROS packages
+RUN apt-get install --no-install-recommends -y \
+    ros-melodic-uuv-simulator
 
 # Install rosdep
 RUN apt-get install -y python-rosdep
@@ -51,6 +52,33 @@ RUN apt-get update && apt-get install -y \
     x11-xserver-utils \
     libgl1-mesa-glx \
     mesa-utils
+
+# Install Git
+RUN apt-get install -y git; git config --global url."https://github.com/".insteadOf git://github.com/
+
+# SETUP ARDUSUB SITL 
+# Clone ArduPilot repository
+RUN git clone --no-checkout https://github.com/ArduPilot/ardupilot.git ardupilot
+WORKDIR /ardupilot
+
+# Checkout specific commit
+RUN git checkout f823848
+
+# Instructions from http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html
+RUN git submodule update --init --recursive
+
+# Avoid prompt for timezone in tzdata
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get install -y sudo lsb-release tzdata
+ENV DEBIAN_FRONTEND=
+
+# Install ArduPilot SITL dependencies & build
+RUN USER=nobody Tools/environment_install/install-prereqs-ubuntu.sh -y
+RUN ./waf distclean && \
+    ./waf configure --board sitl && \
+    ./waf sub
+
+# TODO: MAKE sim_vehicle.py executable & install QGroundControl
 
 # Source the ROS environment by default
 RUN echo "source /opt/ros/melodic/setup.bash" >> /root/.bashrc
