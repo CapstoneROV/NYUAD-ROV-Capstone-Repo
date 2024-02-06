@@ -2,6 +2,9 @@ IMAGE_NAME=ros-ubuntu18.04
 CONTAINER_NAME=capstonerov
 pwd := $(shell pwd)
 
+init_submodule:
+	git submodule update --init --recursive
+
 # Build dockerfile in same directory
 build:
 	docker build -t $(IMAGE_NAME) .
@@ -20,9 +23,11 @@ run_container:
 	-v $(pwd):/$(CONTAINER_NAME) $(IMAGE_NAME)
 
 # Run docker container
+# Init submodules
 # Delete container from scratch and run new container
 # Build if does not exist
 run:
+	make init_submodule && \
 	sudo docker ps -aq --filter "name=^/$(CONTAINER_NAME)$\" | \
 	xargs -r sudo docker rm && \
 	make build_if_not_exists && \
@@ -39,3 +44,17 @@ rerun:
 # Stop docker container
 stop:
 	sudo docker stop $(CONTAINER_NAME)
+
+# Make catkin workspace add source devel/setup.bash to bashrc
+catkin_make:
+	sudo docker exec -it $(CONTAINER_NAME) /bin/bash -c "source /opt/ros/melodic/setup.bash && \
+	cd /$(CONTAINER_NAME) && \
+	catkin_make" && \
+	echo "source /$(CONTAINER_NAME)/devel/setup.bash" >> ~/.bashrc
+
+
+# Launch sim.launch
+launch_sim:
+	sudo docker exec -it $(CONTAINER_NAME) /bin/bash -c "source /opt/ros/melodic/setup.bash && \
+	cd /$(CONTAINER_NAME) && \
+	roslaunch capstone sim.launch"
