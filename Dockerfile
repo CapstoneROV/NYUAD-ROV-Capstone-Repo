@@ -18,6 +18,12 @@ RUN apt-get update && \
 RUN apt-get install --no-install-recommends -y \
     ros-melodic-uuv-simulator
 
+# Install Mavros
+RUN sudo apt-get install -y \
+    ros-melodic-mavros \
+    ros-melodic-mavros-extras \
+    ros-melodic-mavros-msgs
+
 # Install rosdep
 RUN apt-get install -y python-rosdep
 
@@ -78,7 +84,18 @@ RUN ./waf distclean && \
     ./waf configure --board sitl && \
     ./waf sub
 
-# TODO: MAKE sim_vehicle.py executable & install QGroundControl
+# Install QGroundControl
+WORKDIR /
+RUN sudo usermod -a -G dialout $USER
+RUN sudo apt-get remove modemmanager -y
+RUN sudo apt install -y \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-libav \
+    gstreamer1.0-gl \
+    libqt5gui5 \
+    libfuse2
+RUN curl -fsSL https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
+RUN chmod +x QGroundControl.AppImage
 
 # Source the ROS environment by default
 RUN echo "source /opt/ros/melodic/setup.bash" >> /root/.bashrc
