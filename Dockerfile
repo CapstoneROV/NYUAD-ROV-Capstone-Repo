@@ -1,6 +1,9 @@
 # Use Ubuntu 18.04 as base image
 FROM ubuntu:18.04
 
+# To avoid prompts in setup
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install Python 2.7 and Python 3
 RUN apt-get update && \
     apt-get install -y python2.7 python3 python-pip python3-pip
@@ -74,9 +77,7 @@ RUN git checkout f823848
 RUN git submodule update --init --recursive
 
 # Avoid prompt for timezone in tzdata
-ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get install -y sudo lsb-release tzdata
-ENV DEBIAN_FRONTEND=
 
 # Install ArduPilot SITL dependencies & build
 RUN USER=nobody Tools/environment_install/install-prereqs-ubuntu.sh -y
