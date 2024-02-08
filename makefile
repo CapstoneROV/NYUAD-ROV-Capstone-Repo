@@ -1,11 +1,13 @@
 IMAGE_NAME=ros-ubuntu18.04
 CONTAINER_NAME=capstonerov
+USER=ardupilot
 pwd := $(shell pwd)
 
 init_submodule:
 	git submodule update --init --recursive
 
 # Build dockerfile in same directory
+.PHONY: build
 build:
 	docker build -t $(IMAGE_NAME) .
 
@@ -17,10 +19,11 @@ build_if_not_exists:
 	  echo "Image $(IMAGE_NAME) found, skipping build."; \
 	fi
 
+# Run docker container with user ardupilot
 run_container:
-	sudo docker run -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
+	sudo docker run -it --user $(USER) --privileged --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
-	-v $(pwd):/$(CONTAINER_NAME) $(IMAGE_NAME)
+	-v $(pwd):/home/$(USER)/$(CONTAINER_NAME):z $(IMAGE_NAME)
 
 # Run docker container
 # Init submodules
