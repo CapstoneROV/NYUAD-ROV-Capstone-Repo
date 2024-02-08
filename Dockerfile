@@ -34,13 +34,20 @@ RUN sudo apt-get install -y python2.7 python3 python-pip python3-pip
 
 # Install additional ROS packages
 RUN sudo apt-get install --no-install-recommends -y \
-    ros-melodic-uuv-simulator
+    ros-melodic-uuv-simulator \
+    catkin_tools \
+    ros-melodic-geodesy \
+    ros-melodic-robot-localization
 
 # Install Mavros
 RUN sudo apt-get install -y \
     ros-melodic-mavros \
     ros-melodic-mavros-extras \
     ros-melodic-mavros-msgs
+
+# Install geographic lib dataset
+RUN curl -
+RUN sudo ./install_geographiclib_datasets.sh
 
 # Install rosdep
 RUN sudo apt-get install -y python-rosdep
@@ -59,7 +66,9 @@ RUN pip install --no-cache-dir \
     rospkg \
     catkin_pkg \
     pyyaml \
-    empy
+    empy==3.3.4 \
+    mavproxy \
+    pymavlink 
 
 RUN pip3 install --no-cache-dir \
     numpy \
@@ -68,7 +77,7 @@ RUN pip3 install --no-cache-dir \
     rospkg \
     pandas \
     pyyaml \
-    empy
+    empy==3.3.4
 
 # Install additional packages for GUI x 11 forwarding
 RUN sudo apt-get update && sudo apt-get install -y \
@@ -116,14 +125,18 @@ RUN sudo apt install -y \
     libfuse2
 RUN sudo curl -fsSL https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage -o QGroundControl.AppImage
 RUN sudo chmod +x QGroundControl.AppImage
+RUN sudo chmod +x $HOME/ardupilot/Tools/autotest/sim_vehicle.py
 
 # Set the working directory to the mounted volume
 WORKDIR $HOME/capstonerov
 RUN sudo chown -R $USER:$USER $HOME/capstonerov
+RUN sudo apt-get install -y ros-melodic-robot-localization
 # RUN sudo chmod -R 777 $HOME
 
 # Source the ROS environment by default
 RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+RUN echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
+
 # # Create catkin workspace
 # RUN mkdir -p ~/catkin_ws/src
 # RUN sudo chmod -R +777 ~/catkin_ws

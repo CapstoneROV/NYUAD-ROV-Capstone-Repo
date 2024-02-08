@@ -3,9 +3,10 @@
 <launch>
 
     <!-- ArduSub Simulation -->
-    <node name="ardusub_sim" pkg="rosbash" type="rosrun" 
-            args="/bin/bash -c '/ardupilot/sim_vehicle.py -v ArduSub -l 55.60304,12.808937,0,0 --map --console'" 
-            output="screen" />
+    <node name="ardusub_sim_vehicle" pkg="roslaunch" type="axlaunch.sh" 
+        args="/home/ardupilot/ardupilot/Tools/autotest/sim_vehicle.py -v ArduSub -l 55.60304,12.808937,0,0 --map --console" 
+        output="screen" />
+
     <!-- TODO: FIND DIRECTORY OF SIM_VEHICLE MAKE SURE ITS AN EXECUTABLE USING CHMOD +X -->
 
     <!-- MAVROS Launch with Joystick or Keyboard -->
