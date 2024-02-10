@@ -18,18 +18,21 @@ build_if_not_exists:
 	else \
 	  echo "Image $(IMAGE_NAME) found, skipping build."; \
 	fi
+# Copy files into docker container/do not remove any new files in container
+copy:
+	docker cp -a . $(CONTAINER_NAME):/home/$(USER)/$(CONTAINER_NAME)
 
 # Run docker container with user ardupilot
 run_container:
 	sudo docker run -it --user $(USER) --privileged --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
-	-v $(pwd):/home/$(USER)/$(CONTAINER_NAME):z $(IMAGE_NAME)
+	-w /home/$(USER)/$(CONTAINER_NAME) $(IMAGE_NAME)
 
 # Run docker container
 # Init submodules
 # Delete container from scratch and run new container
 # Build if does not exist
-run:
+rerun:
 	make init_submodule && \
 	sudo docker ps -aq --filter "name=^/$(CONTAINER_NAME)$\" | \
 	xargs -r sudo docker rm && \
@@ -38,11 +41,14 @@ run:
 
 # Run docker container
 # If container already exists, start the container (DONT DELETE CONTAINER)
-rerun:
+run:
+	make init_submodule && \
+	make build_if_not_exists && \
 	sudo docker ps -aq --filter "name=^/$(CONTAINER_NAME)$\" | \
 	xargs -r sudo docker start -i $(CONTAINER_NAME) && \
 	echo "Container $(CONTAINER_NAME) found, starting container." || \
-	sudo docker start -i $(CONTAINER_NAME)
+	make copy && \
+	docker start -i $(CONTAINER_NAME)
 
 # Stop docker container
 stop:

@@ -35,7 +35,6 @@ RUN sudo apt-get install -y python2.7 python3 python-pip python3-pip
 # Install additional ROS packages
 RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-uuv-simulator \
-    catkin_tools \
     ros-melodic-geodesy \
     ros-melodic-robot-localization
 
@@ -44,10 +43,6 @@ RUN sudo apt-get install -y \
     ros-melodic-mavros \
     ros-melodic-mavros-extras \
     ros-melodic-mavros-msgs
-
-# Install geographic lib dataset
-RUN curl -
-RUN sudo ./install_geographiclib_datasets.sh
 
 # Install rosdep
 RUN sudo apt-get install -y python-rosdep
@@ -127,20 +122,26 @@ RUN sudo curl -fsSL https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.
 RUN sudo chmod +x QGroundControl.AppImage
 RUN sudo chmod +x $HOME/ardupilot/Tools/autotest/sim_vehicle.py
 
+
+# Install geographic lib dataset
+RUN sudo curl -sL https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh -o install_geographiclib_datasets.sh
+RUN sudo chmod +x install_geographiclib_datasets.sh
+RUN sudo bash ./install_geographiclib_datasets.sh
+
 # Set the working directory to the mounted volume
 WORKDIR $HOME/capstonerov
 RUN sudo chown -R $USER:$USER $HOME/capstonerov
-RUN sudo apt-get install -y ros-melodic-robot-localization
-# RUN sudo chmod -R 777 $HOME
 
 # Source the ROS environment by default
 RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 RUN echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
 
-# # Create catkin workspace
-# RUN mkdir -p ~/catkin_ws/src
-# RUN sudo chmod -R +777 ~/catkin_ws
+# Copy capstonerov to the container & Make workspace
+COPY . $HOME/capstonerov
+WORKDIR $HOME/capstonerov
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && \
+    catkin_make -j"
+RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
-# Just for tonight's hack, make the copy automated 
-# Set the default command
-CMD mkdir ~/permission/ && cp -r ~/capstonerov/ ~/permission/ && sudo chmod -R 777 ./ && cd ~/permission/capstonerov && exec bash
+# Set the default command to bash
+CMD exec bash
