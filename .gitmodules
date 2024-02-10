@@ -1,0 +1,6 @@
+[submodule "src/bluerov2_sim"]
+	path = src/bluerov2_sim
+	url = https://github.com/CapstoneROV/bluerov2_sim
+[submodule "src/imc_ros_bridge"]
+	path = src/imc_ros_bridge
+	url = https://github.com/smarc-project/imc_ros_bridge
