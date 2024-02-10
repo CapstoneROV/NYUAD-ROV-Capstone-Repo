@@ -1,17 +1,11 @@
 <!-- LAUNCH FILE FOR ROS SIMULATION -->
 
 <launch>
-
-    <!-- ArduSub Simulation -->
-    <node name="ardusub_sim_vehicle" pkg="roslaunch" type="axlaunch.sh" 
-        args="/home/ardupilot/ardupilot/Tools/autotest/sim_vehicle.py -v ArduSub -l 55.60304,12.808937,0,0 --map --console" 
-        output="screen" />
-
     <!-- TODO: FIND DIRECTORY OF SIM_VEHICLE MAKE SURE ITS AN EXECUTABLE USING CHMOD +X -->
 
     <!-- MAVROS Launch with Joystick or Keyboard -->
-    <arg name="use_joystick" default="true"/>
-    <arg name="gazebo" default="false"/>
+    <arg name="use_joystick" default="false"/>
+    <arg name="gazebo" default="true"/>
 
     <!-- Conditional launchs for joystick or keyboard with/without Gazebo -->
     
@@ -28,7 +22,7 @@
     </group>
 
     <group if="$(eval arg('gazebo') == 'true' and arg('use_joystick') == 'false')">
-        <include file="$(find bluerov2_gazebo)/launch/start_ardusub_sitl_demo.launch">
+        <include file="$(find bluerov2_bringup)/launch/bringup_ardusub_sitl.launch">
             <arg name="gazebo" value="true"/>
             <arg name="use_joystick" value="false"/>
         </include>

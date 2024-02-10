@@ -24,7 +24,8 @@ copy:
 
 # Run docker container with user ardupilot
 run_container:
-	sudo docker run -it --user $(USER) --privileged --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
+	sudo docker run -it --user $(USER) --privileged --cap-add SYS_ADMIN --device /dev/fuse \
+	--env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
 	-w /home/$(USER)/$(CONTAINER_NAME) $(IMAGE_NAME)
 

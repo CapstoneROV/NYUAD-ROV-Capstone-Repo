@@ -14,23 +14,24 @@ This container supports Python both versions 2.7 and 3, to ensure compatibility 
 We ensure the ROS environment is always ready by sourcing it in the bashrc file, and we set our working directory to '/capstonerov' in mounted docker container to keep our project organized. 
 
 ## Running Docker Container with GUI support (Linux) - working
+To build docker image:
+```
+make build
+```
 
+To run image and create container if necessary:
 ```
 make run
 ```
 
-To run roscore as background, run
-
+To run simulation:
 ```
-roscore &
+roslaunch bluerov2_bringup bringup_ardusub_sitl.launch use_joystick:=false
 ```
-
-Then launch anything you want, such as 
-
+then run in a separate terminal:
 ```
-rviz
+docker exec -it capstonerov /bin/bash sim_vehicle.py -v ArduSub -l 55.60304,12.808937,0,0 --console
 ```
-
 
 # Using GUI
 
@@ -38,14 +39,6 @@ To run GUI applications in docker container (e.g. gazebo, rviz), you need to con
 
 ```
 xhost +local:docker
-```
-
-## Notes for Pi
-
-After building image, you need to tag then push to dockerhub
-```
-pi@swarmic:~/Documents/GitHub/CapstoneRoV$ sudo docker tag ros-ubuntu18.04 piko314159/ros-ubuntu18.04
-pi@swarmic:~/Documents/GitHub/CapstoneRoV$ sudo docker push piko314159/ros-ubuntu18.04
 ```
 
 ## Contributing
