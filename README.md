@@ -14,17 +14,17 @@ This container supports Python both versions 2.7 and 3, to ensure compatibility 
 We ensure the ROS environment is always ready by sourcing it in the bashrc file, and we set our working directory to '/capstonerov' in mounted docker container to keep our project organized. 
 
 ## Running Docker Container with GUI support (Linux) - working
-To build docker image:
+To build docker image. Please rerun this command when you make any edits to source(code) files and run the command after:
 ```
 make build
 ```
 
-To run image and create container if necessary:
+To run image and create container if necessary. Please note that when making any edits to the launch files on your local file system, you need to run this command again:
 ```
 make run
 ```
 
-To run simulation:
+To run simulation: (Run this in docker container)
 ```
 roslaunch bluerov2_bringup bringup_ardusub_sitl.launch use_joystick:=false
 ```
@@ -48,4 +48,4 @@ Contributions are welcome. Please adhere to this project's code of conduct.
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
 ## Contact
-For any queries or suggestions, please reach out to Pi Ko at pk2269@nyu.edu.
+For any queries or suggestions, please reach out to Rami Richani at rir8190@nyu.edu or Pi Ko at pk2269@nyu.edu.
