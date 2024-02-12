@@ -26,11 +26,11 @@ make run
 
 To run simulation: (Run this in docker container)
 ```
-roslaunch bluerov2_bringup bringup_ardusub_sitl.launch use_joystick:=false
+roslaunch bluerov2_bringup bringup_ardusub_sitl_custom.launch gazebo:=true
 ```
 then run in a separate terminal:
 ```
-docker exec -it capstonerov /bin/bash sim_vehicle.py -v ArduSub -l 55.60304,12.808937,0,0 --console
+docker exec -it capstonerov /bin/bash -c "sim_vehicle.py -v ArduSub -l 55.60304,12.808937,0,0 --console"
 ```
 
 # Using GUI

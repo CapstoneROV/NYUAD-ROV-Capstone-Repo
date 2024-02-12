@@ -49,7 +49,8 @@ run:
 	xargs -r sudo docker start -i $(CONTAINER_NAME) && \
 	echo "Container $(CONTAINER_NAME) found, starting container." || \
 	make copy && \
-	docker start -i $(CONTAINER_NAME)
+	docker start -i $(CONTAINER_NAME) || \
+	make run_container
 
 # Stop docker container
 stop:
