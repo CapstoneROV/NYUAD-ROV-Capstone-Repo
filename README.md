@@ -13,50 +13,42 @@ This container supports Python both versions 2.7 and 3, to ensure compatibility 
 
 We ensure the ROS environment is always ready by sourcing it in the bashrc file, and we set our working directory to '/capstonerov' in mounted docker container to keep our project organized. 
 
-## How to run
-
-First, install Docker if you don't have it yet.
-
-Then, pull the published Docker Image: [ROS Ubuntu 18.04 Docker Image](https://hub.docker.com/repository/docker/piko314159/ros-ubuntu18.04/tags?page=1&ordering=last_updated), using the folowing command.
-
-
-```bash
-docker pull piko314159/ros-ubuntu18.04:latest
-```
-
 ## Running Docker Container with GUI support (Linux) - working
-
+To build docker image. 
 ```
-sudo docker ps -aq --filter "name=^/capstonerov$" | xargs -r sudo docker rm && sudo docker run -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name capstonerov -v $(pwd):/capstonerov ros-ubuntu18.04
-```
-
-To run roscore as background, run
-
-```
-roscore &
+make build
 ```
 
-Then launch anything you want, such as 
-
+If you make any edits to the source files(cpp/python) and want it to reflect(run this):
 ```
-rviz
+make build && make rerun
 ```
 
+To run image and create container if necessary. Please note that when making any edits to the launch files on your local file system, you need to run this command again:
+```
+make run
+```
 
+To run simulation: (Run this in docker container)
+```
+roslaunch bluerov2_bringup bringup_ardusub_sitl_custom.launch gazebo:=true
+```
+then run in a separate terminal:
+```
+docker exec -it capstonerov /bin/bash
+sim_vehicle.py -v ArduSub -l 55.60304,12.808937,0,0 --console
+```
+
+If you notice your memory pile up run this: (TODO, automatically delete old images)
+```
+docker system prune -a
+```
 # Using GUI
 
 To run GUI applications in docker container (e.g. gazebo, rviz), you need to configure the container to use the X server of your host machine.
 
 ```
 xhost +local:docker
-```
-
-## Notes for Pi
-
-After building image, you need to tag then push to dockerhub
-```
-pi@swarmic:~/Documents/GitHub/CapstoneRoV$ sudo docker tag ros-ubuntu18.04 piko314159/ros-ubuntu18.04
-pi@swarmic:~/Documents/GitHub/CapstoneRoV$ sudo docker push piko314159/ros-ubuntu18.04
 ```
 
 ## Contributing
@@ -66,4 +58,4 @@ Contributions are welcome. Please adhere to this project's code of conduct.
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
 ## Contact
-For any queries or suggestions, please reach out to Pi Ko at pk2269@nyu.edu.
+For any queries or suggestions, please reach out to Rami Richani at rir8190@nyu.edu or Pi Ko at pk2269@nyu.edu.

@@ -1,0 +1,14 @@
+# GITIGNORE FOR ROS & CATKIN
+# http://wiki.ros.org/catkin/CMakeLists.txt
+
+build
+devel
+install
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.a
+*.la
+*.o
+*.lo

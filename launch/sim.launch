@@ -1,0 +1,31 @@
+<!-- LAUNCH FILE FOR ROS SIMULATION -->
+
+<launch>
+    <!-- TODO: FIND DIRECTORY OF SIM_VEHICLE MAKE SURE ITS AN EXECUTABLE USING CHMOD +X -->
+
+    <!-- MAVROS Launch with Joystick or Keyboard -->
+    <arg name="use_joystick" default="false"/>
+    <arg name="gazebo" default="true"/>
+
+    <!-- Conditional launchs for joystick or keyboard with/without Gazebo -->
+    
+    <group if="$(eval arg('gazebo') == 'false')">
+        <include file="$(find bluerov2_bringup)/launch/bringup_ardusub_sitl.launch">
+            <arg name="use_joystick" value="$(arg use_joystick)"/>
+        </include>
+    </group>
+
+    <group if="$(eval arg('gazebo') == 'true' and arg('use_joystick') == 'true')">
+        <include file="$(find bluerov2_bringup)/launch/bringup_ardusub_sitl.launch">
+            <arg name="gazebo" value="true"/>
+        </include>
+    </group>
+
+    <group if="$(eval arg('gazebo') == 'true' and arg('use_joystick') == 'false')">
+        <include file="$(find bluerov2_bringup)/launch/bringup_ardusub_sitl.launch">
+            <arg name="gazebo" value="true"/>
+            <arg name="use_joystick" value="false"/>
+        </include>
+    </group>
+
+</launch>
