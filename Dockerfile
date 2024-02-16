@@ -128,19 +128,18 @@ RUN sudo curl -sL https://raw.githubusercontent.com/mavlink/mavros/master/mavros
 RUN sudo chmod +x install_geographiclib_datasets.sh
 RUN sudo bash ./install_geographiclib_datasets.sh
 
-# Set the working directory to the mounted volume
-WORKDIR $HOME/capstonerov
-RUN sudo chown -R $USER:$USER $HOME/capstonerov
-
 # Source the ROS environment by default
 RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 RUN echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
 
-# Copy capstonerov to the container & Make workspace
+# Set the working directory to the copied volume
 COPY . $HOME/capstonerov
 WORKDIR $HOME/capstonerov
+RUN sudo chown -R $USER:$USER $HOME/capstonerov
+
+# Make workspace
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && \
-    catkin_make -j"
+    catkin_make -j"  
 RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
 # Set the default command to bash
