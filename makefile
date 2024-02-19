@@ -18,10 +18,14 @@ build_if_not_exists:
 	else \
 	  echo "Image $(IMAGE_NAME) found, skipping build."; \
 	fi
-# Copy files into docker container/do not remove any new files in container
-copy:
-	docker cp -a . $(CONTAINER_NAME):/home/$(USER)/$(CONTAINER_NAME)
 
+# Copy files into docker container/do not remove any new files in container
+# We use a temp directory to speed this up mutliple factors
+copy:
+	mkdir -p temp_dir && \
+	rsync -avq --exclude='.git' ./ temp_dir/ && \
+	docker cp -a temp_dir/. $(CONTAINER_NAME):/home/$(USER)/$(CONTAINER_NAME) && \
+	rm -rf temp_dir
 # Run docker container with user ardupilot
 run_container:
 	sudo docker run -it --user $(USER) --privileged --cap-add SYS_ADMIN --device /dev/fuse \
