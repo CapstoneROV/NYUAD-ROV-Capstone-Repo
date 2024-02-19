@@ -4,3 +4,6 @@
 [submodule "src/imc_ros_bridge"]
 	path = src/imc_ros_bridge
 	url = https://github.com/smarc-project/imc_ros_bridge
+[submodule "include/ardupilot_gazebo"]
+	path = include/ardupilot_gazebo
+	url = https://github.com/CapstoneROV/ardupilot_gazebo
