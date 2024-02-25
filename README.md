@@ -14,6 +14,11 @@ This container supports Python both versions 2.7 and 3, to ensure compatibility 
 We ensure the ROS environment is always ready by sourcing it in the bashrc file, and we set our working directory to '/capstonerov' in mounted docker container to keep our project organized. 
 
 ## Running Docker Container with GUI support (Linux) - working
+When first cloning the repository, you must init the git submodules:
+```
+make init_submodule
+```
+
 To build docker image. 
 ```
 make build
