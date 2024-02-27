@@ -13,3 +13,6 @@ temp_dir
 *.la
 *.o
 *.lo
+
+# vscode
+.vscode
