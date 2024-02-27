@@ -36,12 +36,12 @@ make run
 
 To run simulation: (Run this in docker container)
 ```
-roslaunch bluerov2_bringup bringup_ardusub_sitl_custom.launch gazebo:=true
+roslaunch bluerov2_bringup bringup_ardusub_sitl_custom.launch
 ```
 then run in a separate terminal:
 ```
 docker exec -it capstonerov /bin/bash
-sim_vehicle.py -v ArduSub -l 55.60304,12.808937,0,0 --console
+sim_vehicle.py -j6 -v ArduSub -f gazebo-bluerov2 -l 55.60304,12.808937,0,0 --console out=udp:0.0.0.0:14550 
 ```
 
 If you notice your memory pile up run this: (TODO, automatically delete old images)
