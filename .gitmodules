@@ -16,3 +16,6 @@
 [submodule "src/sonar_msgs"]
 	path = src/sonar_msgs
 	url = https://github.com/Brazilian-Institute-of-Robotics/sonar_msgs
+[submodule "src/simulation_worlds"]
+	path = src/simulation_worlds
+	url = https://github.com/CapstoneROV/simulation_worlds
