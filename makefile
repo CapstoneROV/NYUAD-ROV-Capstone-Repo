@@ -32,6 +32,11 @@ run_container:
 	--env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
 	-w /home/$(USER)/$(CONTAINER_NAME) $(IMAGE_NAME)
+# Reuse created container
+reuse:
+	sudo docker start $(CONTAINER_NAME)
+	sudo docker exec -it --user $(USER) $(CONTAINER_NAME) /bin/bash
+	sudo docker stop $(CONTAINER_NAME)
 
 # Run docker container
 # Init submodules
