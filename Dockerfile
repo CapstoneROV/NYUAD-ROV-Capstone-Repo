@@ -1,5 +1,5 @@
 # Use Ubuntu 18.04 as base image
-FROM ubuntu:18.04
+FROM nvidia/cuda:11.5.2-devel-ubuntu18.04
 
 # To avoid prompts in setup
 ENV DEBIAN_FRONTEND=noninteractive
@@ -10,10 +10,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     gnupg2 \
     sudo \
     software-properties-common
-
-# Add the ROS repository
-RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - && \
-    sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 
 # Add a non-root user for pip & ardusub
 ENV USER=ardupilot
@@ -27,23 +23,32 @@ RUN chmod 0440 /etc/sudoers.d/$USER
 USER $USER
 
 # Install ROS Melodic
-RUN sudo apt-get update && sudo apt-get install -y ros-melodic-desktop-full
+RUN sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+RUN sudo apt update
+RUN sudo apt install ros-melodic-desktop-full -y
 
 # Install Python 2.7 and Python 3
-RUN sudo apt-get install -y python2.7 python3 python-pip python3-pip
+RUN sudo apt-get install -y python2.7 python3 python-pip python3-pip python-setuptools-scm
 
 # Install additional ROS packages
 RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-uuv-simulator \
     ros-melodic-geodesy \
     ros-melodic-robot-localization \
-    ros-melodic-message-to-tf
+    ros-melodic-libnabo \
+    ros-melodic-message-to-tf \
+    libomp-dev \
+    ros-melodic-vision-opencv \
+    ros-melodic-nav-core \ 
+    ros-melodic-pybind11-catkin \
+    python3-catkin-tools 
 
 # Install Mavros
 RUN sudo apt-get install -y \
     ros-melodic-mavros \
     ros-melodic-mavros-extras \
-    ros-melodic-mavros-msgs
+    ros-melodic-mavros-msgs 
 
 # Install rosdep
 RUN sudo apt-get install -y python-rosdep
@@ -54,7 +59,9 @@ RUN sudo rosdep init && \
     sudo rosdep fix-permissions
 
 # Install common Python packages for robotics and ROS
+RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir \
+    scikit-build \
     numpy \
     scipy \
     matplotlib \
@@ -63,7 +70,12 @@ RUN pip install --no-cache-dir \
     catkin_pkg \
     pyyaml \
     empy==3.3.4 \
-    pymavlink 
+    mavproxy \
+    pymavlink \
+    shapely \ 
+    tf \
+    tqdm \
+    pyYAML 
 
 RUN pip3 install --no-cache-dir \
     numpy \
@@ -96,7 +108,6 @@ RUN sudo chown -R $USER:$USER $HOME/ardupilot
 WORKDIR $HOME/ardupilot
 
 # Checkout specific commit (right before python3 transition)
-# RUN git checkout f823848
 RUN git checkout 8ae34a1
 
 # Instructions from http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html
@@ -108,11 +119,11 @@ RUN sudo apt-get install -y tzdata
 # Install ArduPilot SITL dependencies & build
 ENV SKIP_AP_EXT_ENV=1 SKIP_AP_GRAPHIC_ENV=1 SKIP_AP_COV_ENV=1 SKIP_AP_GIT_CHECK=1
 RUN ./Tools/environment_install/install-prereqs-ubuntu.sh -y
-# RUN pip3 install pexpect future
 RUN ./waf distclean && \
     ./waf configure --board sitl && \
     ./waf sub
-
+# Override the python installs they made, this is to support python 2.7
+RUN pip install empy==3.3.4 mavproxy==1.8.69 
 RUN sudo chmod +x $HOME/ardupilot/Tools/autotest/sim_vehicle.py
 
 # Install geographic lib dataset
@@ -136,15 +147,27 @@ RUN echo "export GAZEBO_MODEL_PATH=$HOME/ardupilot_gazebo/models_gazebo:${GAZEBO
 RUN echo "export GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/worlds:${GAZEBO_RESOURCE_PATH}" >> ~/.bashrc
 RUN echo "export GAZEBO_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GAZEBO_PLUGIN_PATH}" >> ~/.bashrc
 
+# Install Ardupilot Gazebo plugin
+WORKDIR $HOME/capstonerov/include/ardupilot_gazebo
+RUN make build 
+
+# Libpointmatcher (SLAM Req)
+WORKDIR $HOME/capstonerov
+RUN git clone https://github.com/norlab-ulaval/libpointmatcher libpointmatcher
+RUN sudo chown -R $USER:$USER $HOME/capstonerov/libpointmatcher
+RUN mkdir -p $HOME/capstonerov/libpointmatcher/build && cd $HOME/capstonerov/libpointmatcher/build && \
+    /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DUSE_OPEN_MP=TRUE .. && make -j && sudo make install"
+
+# Install SLAM
+RUN git clone --no-checkout https://github.com/borglab/gtsam.git gtsam
+WORKDIR $HOME/capstonerov/gtsam
+RUN git checkout 4.1.0
+RUN mkdir -p $HOME/capstonerov/gtsam/build && cd $HOME/capstonerov/gtsam/build && \
+    /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=2.7 .. && make -j8 && sudo make install python-install"
+
 # Make workspace
-RUN pip install empy==3.3.4 mavproxy==1.8.69
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make -j"
 RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
-WORKDIR $HOME/capstonerov/include/ardupilot_gazebo
-RUN make build 
-# RUN mkdir build && cd ./build && cmake $HOME/capstonerov/include/ardupilot_gazebo && make -j && sudo make install
-
-WORKDIR $HOME/capstonerov
 # Set the default command to bash
 CMD exec bash
