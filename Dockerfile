@@ -186,8 +186,6 @@ RUN make -j8
 RUN sudo make install python-install
 
 # Set the working directory to the copied volume
-COPY --chown=1000:1000 src $HOME/capstonerov/src
-COPY --chown=1000:1000 launch $HOME/capstonerov/launch
 WORKDIR $HOME/capstonerov
 
 RUN sudo apt-get install -y \ 
@@ -196,7 +194,7 @@ RUN sudo apt-get install -y \
 
 # Make workspace
 RUN (pip uninstall em empy -y || true) && pip install empy==3.3.4
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make -j"
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash"  
 RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
 WORKDIR $HOME/capstonerov/include/ardupilot_gazebo
