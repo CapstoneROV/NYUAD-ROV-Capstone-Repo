@@ -1,5 +1,5 @@
 # Use Ubuntu 18.04 as base image
-FROM ubuntu:18.04
+FROM nvidia/cuda:11.5.2-devel-ubuntu18.04
 
 # To avoid prompts in setup
 ENV DEBIAN_FRONTEND=noninteractive
@@ -10,10 +10,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     gnupg2 \
     sudo \
     software-properties-common
-
-# Add the ROS repository
-RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - && \
-    sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 
 # Add a non-root user for pip & ardusub
 ENV USER=ardupilot
@@ -27,23 +23,29 @@ RUN chmod 0440 /etc/sudoers.d/$USER
 USER $USER
 
 # Install ROS Melodic
-RUN sudo apt-get update && sudo apt-get install -y ros-melodic-desktop-full
+RUN sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+RUN sudo apt update
+RUN sudo apt install ros-melodic-desktop-full -y
 
 # Install Python 2.7 and Python 3
-RUN sudo apt-get install -y python2.7 python3 python-pip python3-pip
+RUN sudo apt-get install -y python2.7 python3 python-pip python3-pip python-setuptools-scm
 
 # Install additional ROS packages
 RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-uuv-simulator \
     ros-melodic-geodesy \
     ros-melodic-robot-localization \
-    ros-melodic-message-to-tf
+    ros-melodic-libnabo \
+    ros-melodic-message-to-tf \
+    libomp-dev \
+    ros-melodic-vision-opencv 
 
 # Install Mavros
 RUN sudo apt-get install -y \
     ros-melodic-mavros \
     ros-melodic-mavros-extras \
-    ros-melodic-mavros-msgs
+    ros-melodic-mavros-msgs 
 
 # Install rosdep
 RUN sudo apt-get install -y python-rosdep
@@ -54,7 +56,9 @@ RUN sudo rosdep init && \
     sudo rosdep fix-permissions
 
 # Install common Python packages for robotics and ROS
+RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir \
+    scikit-build \
     numpy \
     scipy \
     matplotlib \
@@ -64,7 +68,11 @@ RUN pip install --no-cache-dir \
     pyyaml \
     empy==3.3.4 \
     mavproxy \
-    pymavlink 
+    pymavlink \
+    shapely \ 
+    tf \
+    tqdm \
+    pyYAML 
 
 RUN pip3 install --no-cache-dir \
     numpy \
@@ -139,19 +147,24 @@ RUN sudo bash ./install_geographiclib_datasets.sh
 # Due to bug in current gazebo release from ROS, we need to install gazebo9 from source
 RUN sudo apt-get install libgazebo9-dev -y
 
-# Install Ardupilot Gazebo
-# RUN git clone https://github.com/CapstoneROV/ardupilot_gazebo ardupilot_gazebo
-# WORKDIR $HOME/ardupilot_gazebo
-# RUN mkdir build && cmake $HOME/ardupilot_gazebo && make -j4 && sudo make install
-
-# COPY capstonerov $HOME/capstonerov
-COPY . $HOME/capstonerov
-WORKDIR $HOME/capstonerov
-RUN sudo chown -R $USER:$USER $HOME/capstonerov
-
 # Source the ROS environment by default
 RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 RUN echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
+
+# COPY capstonerov $HOME/capstonerov
+COPY ./include/ardupilot_gazebo $HOME/capstonerov/include/ardupilot_gazebo
+WORKDIR $HOME/capstonerov
+RUN sudo chown -R $USER:$USER $HOME/capstonerov
+
+# Libpointmatcher
+# COPY --chown=1000:1000 src/deps/libpointmatcher $HOME/capstonerov/libpointmatcher
+WORKDIR $HOME/capstonerov
+RUN git clone https://github.com/norlab-ulaval/libpointmatcher libpointmatcher
+RUN sudo chown -R $USER:$USER $HOME/capstonerov/libpointmatcher
+RUN mkdir -p $HOME/capstonerov/libpointmatcher/build && cd $HOME/capstonerov/libpointmatcher/build && \
+    /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DUSE_OPEN_MP=TRUE .. && make -j && sudo make install"
+
+RUN sudo apt-get install -y ros-melodic-nav-core
 
 # Source the Gazebo environment for plugins
 RUN /bin/bash -c "source /usr/share/gazebo/setup.sh"
@@ -159,6 +172,27 @@ RUN echo "export GAZEBO_MODEL_PATH=$HOME/ardupilot_gazebo/models:${GAZEBO_MODEL_
 RUN echo "export GAZEBO_MODEL_PATH=$HOME/ardupilot_gazebo/models_gazebo:${GAZEBO_MODEL_PATH}" >> ~/.bashrc
 RUN echo "export GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/worlds:${GAZEBO_RESOURCE_PATH}" >> ~/.bashrc
 RUN echo "export GAZEBO_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GAZEBO_PLUGIN_PATH}" >> ~/.bashrc
+
+# install SLAM
+WORKDIR $HOME/capstonerov
+RUN git clone https://github.com/borglab/gtsam.git gtsam
+RUN sudo chown -R $USER:$USER $HOME/capstonerov/gtsam
+WORKDIR $HOME/capstonerov/gtsam
+RUN git checkout 4.1.0
+RUN mkdir -p $HOME/capstonerov/gtsam/build
+WORKDIR $HOME/capstonerov/gtsam/build
+RUN cmake -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=2.7 ..
+RUN make -j8
+RUN sudo make install python-install
+
+# Set the working directory to the copied volume
+COPY --chown=1000:1000 src $HOME/capstonerov/src
+COPY --chown=1000:1000 launch $HOME/capstonerov/launch
+WORKDIR $HOME/capstonerov
+
+RUN sudo apt-get install -y \ 
+    ros-melodic-pybind11-catkin \
+    python3-catkin-tools 
 
 # Make workspace
 RUN (pip uninstall em empy -y || true) && pip install empy==3.3.4
