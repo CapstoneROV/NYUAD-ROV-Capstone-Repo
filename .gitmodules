@@ -19,3 +19,6 @@
 [submodule "src/simulation_worlds"]
 	path = src/simulation_worlds
 	url = https://github.com/CapstoneROV/simulation_worlds
+[submodule "src/pointcloud_registration"]
+	path = src/pointcloud_registration
+	url = https://github.com/CapstoneROV/pointcloud_registration
