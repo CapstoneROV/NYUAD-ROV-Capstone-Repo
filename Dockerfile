@@ -36,7 +36,8 @@ RUN sudo apt-get install -y python2.7 python3 python-pip python3-pip
 RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-uuv-simulator \
     ros-melodic-geodesy \
-    ros-melodic-robot-localization
+    ros-melodic-robot-localization \
+    ros-melodic-message-to-tf
 
 # Install Mavros
 RUN sudo apt-get install -y \
@@ -126,7 +127,7 @@ RUN sudo apt-get remove modemmanager -y
 # RUN sudo chmod +x QGroundControl.AppImage
 RUN git clone https://github.com/mavlink/qgroundcontrol
 RUN git submodule update --init --recursive
-RUN sudo apt-get install speech-dispatcher libudev-dev libsdl2-dev patchelf build-essential
+RUN sudo apt-get install speech-dispatcher libudev-dev libsdl2-dev patchelf build-essential -y
 
 RUN sudo chmod +x $HOME/ardupilot/Tools/autotest/sim_vehicle.py
 
@@ -136,7 +137,7 @@ RUN sudo chmod +x install_geographiclib_datasets.sh
 RUN sudo bash ./install_geographiclib_datasets.sh
 
 # Due to bug in current gazebo release from ROS, we need to install gazebo9 from source
-RUN sudo apt-get install libgazebo9-dev
+RUN sudo apt-get install libgazebo9-dev -y
 
 # Install Ardupilot Gazebo
 # RUN git clone https://github.com/CapstoneROV/ardupilot_gazebo ardupilot_gazebo
