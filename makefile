@@ -28,7 +28,7 @@ copy:
 	rm -rf temp_dir
 # Run docker container with user ardupilot
 run_container:
-	sudo docker run -it --user $(USER) --network host --privileged --cap-add SYS_ADMIN --device /dev/fuse \
+	sudo docker run -it --gpus all --user $(USER) --network host --privileged --cap-add SYS_ADMIN --device /dev/fuse \
 	--env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
 	-w /home/$(USER)/$(CONTAINER_NAME) $(IMAGE_NAME)
@@ -68,8 +68,12 @@ catkin_make:
 	echo "source /$(CONTAINER_NAME)/devel/setup.bash" >> ~/.bashrc
 
 
+# DOCKER MAKEFILE COMMANDS
 # Launch sim.launch
+.PHONY: launch_sim
 launch_sim:
-	sudo docker exec -it $(CONTAINER_NAME) /bin/bash -c "source /opt/ros/melodic/setup.bash && \
-	cd /$(CONTAINER_NAME) && \
-	roslaunch capstone sim.launch"
+	roslaunch $(pwd)/launch/sim.launch
+
+.PHONY: launch_sitl
+launch_sitl:
+	sim_vehicle.py -j6 -v ArduSub -f gazebo-bluerov2 -l 55.60304,12.808937,0,0 --console out=udp:0.0.0.0:14550 --add-param-file=$(pwd)/src/bluerov2_sim/bluerov2_ardusub/config/mav.param

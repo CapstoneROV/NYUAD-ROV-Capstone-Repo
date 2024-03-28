@@ -62,7 +62,6 @@ RUN pip install --no-cache-dir \
     catkin_pkg \
     pyyaml \
     empy==3.3.4 \
-    mavproxy \
     pymavlink 
 
 RUN pip3 install --no-cache-dir \
@@ -113,35 +112,12 @@ RUN ./waf distclean && \
     ./waf configure --board sitl && \
     ./waf sub
 
-# Install QGroundControl
-# RUN usermod -a -G dialout $USER
-RUN sudo apt-get remove modemmanager -y
-# RUN sudo apt install -y \
-#     gstreamer1.0-plugins-bad \
-#     gstreamer1.0-libav \
-#     gstreamer1.0-gl \
-#     libqt5gui5 \
-#     libfuse2
-# RUN sudo curl -fsSL https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage -o QGroundControl.AppImage
-# RUN sudo chmod +x QGroundControl.AppImage
-RUN git clone https://github.com/mavlink/qgroundcontrol
-RUN git submodule update --init --recursive
-RUN sudo apt-get install speech-dispatcher libudev-dev libsdl2-dev patchelf build-essential
-
 RUN sudo chmod +x $HOME/ardupilot/Tools/autotest/sim_vehicle.py
 
 # Install geographic lib dataset
 RUN sudo curl -sL https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh -o install_geographiclib_datasets.sh
 RUN sudo chmod +x install_geographiclib_datasets.sh
 RUN sudo bash ./install_geographiclib_datasets.sh
-
-# Due to bug in current gazebo release from ROS, we need to install gazebo9 from source
-RUN sudo apt-get install libgazebo9-dev
-
-# Install Ardupilot Gazebo
-# RUN git clone https://github.com/CapstoneROV/ardupilot_gazebo ardupilot_gazebo
-# WORKDIR $HOME/ardupilot_gazebo
-# RUN mkdir build && cmake $HOME/ardupilot_gazebo && make -j4 && sudo make install
 
 # COPY capstonerov $HOME/capstonerov
 COPY . $HOME/capstonerov
@@ -160,7 +136,7 @@ RUN echo "export GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/worlds:${GAZEBO_RES
 RUN echo "export GAZEBO_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GAZEBO_PLUGIN_PATH}" >> ~/.bashrc
 
 # Make workspace
-RUN (pip uninstall em empy -y || true) && pip install empy==3.3.4
+RUN pip install empy==3.3.4 mavproxy==1.8.69
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make -j"
 RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
