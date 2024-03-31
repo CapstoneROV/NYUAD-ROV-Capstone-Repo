@@ -4,6 +4,7 @@
 build
 devel
 install
+temp_dir
 *.pyc
 *.pyo
 *.pyd
@@ -12,3 +13,6 @@ install
 *.la
 *.o
 *.lo
+
+# vscode
+.vscode

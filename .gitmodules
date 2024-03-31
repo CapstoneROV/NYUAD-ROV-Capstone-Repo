@@ -7,3 +7,18 @@
 [submodule "include/ardupilot_gazebo"]
 	path = include/ardupilot_gazebo
 	url = https://github.com/CapstoneROV/ardupilot_gazebo
+[submodule "src/sonar_testing"]
+	path = src/sonar_testing
+	url = https://github.com/CapstoneROV/sonar_testing
+[submodule "src/forward_looking_sonar_gazebo"]
+	path = src/forward_looking_sonar_gazebo
+	url = https://github.com/CapstoneROV/forward_looking_sonar_gazebo
+[submodule "src/sonar_msgs"]
+	path = src/sonar_msgs
+	url = https://github.com/Brazilian-Institute-of-Robotics/sonar_msgs
+[submodule "src/simulation_worlds"]
+	path = src/simulation_worlds
+	url = https://github.com/CapstoneROV/simulation_worlds
+[submodule "src/pointcloud_registration"]
+	path = src/pointcloud_registration
+	url = https://github.com/CapstoneROV/pointcloud_registration
