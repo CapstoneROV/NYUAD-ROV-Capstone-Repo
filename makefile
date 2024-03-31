@@ -11,6 +11,7 @@ init_submodule:
 build:
 	docker build -t $(IMAGE_NAME) .
 
+.PHONY: build_if_not_exists
 build_if_not_exists:
 	if [ -z "$$(sudo docker images -q $(IMAGE_NAME))" ]; then \
 	  echo "Image $(IMAGE_NAME) not found, building."; \
@@ -21,18 +22,27 @@ build_if_not_exists:
 
 # Copy files into docker container/do not remove any new files in container
 # We use a temp directory to speed this up mutliple factors
+# Exclude .git and src folder (this is bind mounted anyways)
+.PHONY: copy
 copy:
 	mkdir -p temp_dir && \
-	rsync -avq --exclude='.git' ./ temp_dir/ && \
+	rsync -avq --exclude='.git' --exclude='src' --exclude='build' --exclude='devel' --exclude='install' . temp_dir && \
 	docker cp -a temp_dir/. $(CONTAINER_NAME):/home/$(USER)/$(CONTAINER_NAME) && \
 	rm -rf temp_dir
+
 # Run docker container with user ardupilot
+# Mount X11 socket for GUI
+# Bind mount src folder to container
+.PHONY: run_container
 run_container:
 	sudo docker run -it --gpus all --user $(USER) --network host --privileged --cap-add SYS_ADMIN --device /dev/fuse \
 	--env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
+	--volume="$(pwd)/src:/home/$(USER)/$(CONTAINER_NAME)/src" \
 	-w /home/$(USER)/$(CONTAINER_NAME) $(IMAGE_NAME)
+
 # Reuse created container
+.PHONY: reuse
 reuse:
 	sudo docker start $(CONTAINER_NAME)
 	sudo docker exec -it --user $(USER) $(CONTAINER_NAME) /bin/bash
@@ -42,6 +52,7 @@ reuse:
 # Init submodules
 # Delete container from scratch and run new container
 # Build if does not exist
+.PHONY: rerun
 rerun:
 	make init_submodule && \
 	sudo docker ps -aq --filter "name=^/$(CONTAINER_NAME)$\" | \
@@ -51,21 +62,22 @@ rerun:
 
 # Run docker container
 # If container already exists, start the container (DONT DELETE CONTAINER)
+.PHONY: run
 run:
 	make init_submodule && \
 	make build_if_not_exists && \
-	sudo docker ps -aq --filter "name=^/$(CONTAINER_NAME)$\" | \
-	xargs -r sudo docker start -i $(CONTAINER_NAME) && \
-	echo "Container $(CONTAINER_NAME) found, starting container." || \
 	make copy && \
-	docker start -i $(CONTAINER_NAME) || \
-	make run_container
+	make run_container || \
+	echo "Container $(CONTAINER_NAME) found, starting container." && \
+	sudo docker start -i $(CONTAINER_NAME)
 
 # Stop docker container
+.PHONY: stop
 stop:
 	sudo docker stop $(CONTAINER_NAME)
 
 # Make catkin workspace add source devel/setup.bash to bashrc
+.PHONY: catkin_make
 catkin_make:
 	sudo docker exec -it $(CONTAINER_NAME) /bin/bash -c "source /opt/ros/melodic/setup.bash && \
 	cd /$(CONTAINER_NAME) && \
