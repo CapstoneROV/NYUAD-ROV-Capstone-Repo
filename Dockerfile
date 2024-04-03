@@ -72,7 +72,9 @@ RUN pip install --no-cache-dir \
     shapely \ 
     tf \
     tqdm \
-    pyYAML 
+    pyYAML \
+    scikit-learn
+RUN pip install --upgrade scipy
 
 RUN pip3 install --no-cache-dir \
     numpy \
@@ -190,7 +192,8 @@ WORKDIR $HOME/capstonerov
 
 RUN sudo apt-get install -y \ 
     ros-melodic-pybind11-catkin \
-    python3-catkin-tools 
+    python3-catkin-tools \
+    ros-melodic-ros-numpy 
 
 # Make workspace
 RUN (pip uninstall em empy -y || true) && pip install empy==3.3.4
