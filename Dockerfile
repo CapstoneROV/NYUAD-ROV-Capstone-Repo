@@ -42,7 +42,8 @@ RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-vision-opencv \
     ros-melodic-nav-core \ 
     ros-melodic-pybind11-catkin \
-    python3-catkin-tools 
+    python3-catkin-tools \
+    ros-melodic-ros-numpy 
 
 # Install Mavros
 RUN sudo apt-get install -y \
@@ -75,7 +76,9 @@ RUN pip install --no-cache-dir \
     shapely \ 
     tf \
     tqdm \
-    pyYAML 
+    pyYAML \
+    scikit-learn
+RUN pip install --upgrade scipy
 
 RUN pip3 install --no-cache-dir \
     numpy \

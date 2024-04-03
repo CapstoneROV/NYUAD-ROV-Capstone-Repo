@@ -35,18 +35,23 @@ copy:
 # Bind mount src folder to container
 .PHONY: run_container
 run_container:
-	sudo docker run -it --gpus all --user $(USER) --network host --privileged --cap-add SYS_ADMIN --device /dev/fuse \
+	sudo docker run -it --user $(USER) --network host --privileged --cap-add SYS_ADMIN --device /dev/fuse \
 	--env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
-	--volume="$(pwd)/src:/home/$(USER)/$(CONTAINER_NAME)/src" \
+	--volume="./src:/home/$(USER)/$(CONTAINER_NAME)/src" \
+	--volume="./launch:/home/$(USER)/$(CONTAINER_NAME)/launch" \
+	--env="TERM=xterm-256color" \
+	--env="NVIDIA_VISIBLE_DEVICES=all" \
+    --env="NVIDIA_DRIVER_CAPABILITIES=all" \
+    --runtime=nvidia --gpus all \
 	-w /home/$(USER)/$(CONTAINER_NAME) $(IMAGE_NAME)
 
 # Reuse created container
 .PHONY: reuse
 reuse:
-	sudo docker start $(CONTAINER_NAME)
-	sudo docker exec -it --user $(USER) $(CONTAINER_NAME) /bin/bash
-	sudo docker stop $(CONTAINER_NAME)
+	docker start $(CONTAINER_NAME)
+	docker exec -it --user $(USER) $(CONTAINER_NAME) /bin/bash
+	docker stop $(CONTAINER_NAME)
 
 # Run docker container
 # Init submodules
