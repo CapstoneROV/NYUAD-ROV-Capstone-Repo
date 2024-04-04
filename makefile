@@ -19,7 +19,7 @@ build_if_not_exists:
 	else \
 	  echo "Image $(IMAGE_NAME) found, skipping build."; \
 	fi
-
+	
 # Copy files into docker container/do not remove any new files in container
 # We use a temp directory to speed this up mutliple factors
 # Exclude .git and src folder (this is bind mounted anyways)
@@ -35,7 +35,7 @@ copy:
 # Bind mount src folder to container
 .PHONY: run_container
 run_container:
-	sudo docker run -it --gpus all --user $(USER) --network host --privileged --cap-add SYS_ADMIN --device /dev/fuse \
+	sudo docker run -it --user $(USER) --network host --privileged --cap-add SYS_ADMIN --device /dev/fuse \
 	--env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
 	--volume="$(pwd)/src:/home/$(USER)/$(CONTAINER_NAME)/src" \

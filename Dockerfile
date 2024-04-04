@@ -39,6 +39,13 @@ RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-robot-localization \
     ros-melodic-message-to-tf
 
+#Install Octomap package 
+RUN sudo apt-get install --no-install-recommends -y \
+    ros-melodic-octomap \
+    ros-melodic-octomap-ros \
+    ros-melodic-octomap-msgs
+    
+
 # Install Mavros
 RUN sudo apt-get install -y \
     ros-melodic-mavros \

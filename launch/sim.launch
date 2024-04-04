@@ -12,5 +12,4 @@
         <arg name="gazebo" value="$(arg gazebo)"/>
         <arg name="use_keyboard" value="$(arg use_keyboard)"/>
     </include>
-
 </launch>
