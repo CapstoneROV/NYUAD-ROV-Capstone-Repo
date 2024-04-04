@@ -22,3 +22,6 @@
 [submodule "src/pointcloud_registration"]
 	path = src/pointcloud_registration
 	url = https://github.com/CapstoneROV/pointcloud_registration
+[submodule "src/octomap_mapping"]
+	path = src/octomap_mapping
+	url = https://github.com/CapstoneROV/octomap_mapping
