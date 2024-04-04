@@ -149,5 +149,4 @@ WORKDIR $HOME/capstonerov
 # Set the default command to bash
 CMD exec bash
 
-# install octomap server to generate an octomap from the pointcloud
-sudo apt-get install ros-kinetic-octomap ros-kinetic-octomap-mapping ros-kinetic-octomap-msgs ros-kinetic-octomap-ros ros-kinetic-octomap-rviz-plugins ros-kinetic-octomap-server
+
