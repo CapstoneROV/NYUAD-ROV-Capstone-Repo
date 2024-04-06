@@ -26,7 +26,7 @@ build_if_not_exists:
 .PHONY: copy
 copy:
 	mkdir -p temp_dir && \
-	rsync -avq --exclude='.git' --exclude='launch' --exclude='src' --exclude='build' --exclude='devel' --exclude='install' . temp_dir && \
+	rsync -avq --exclude='.git' --exclude='.vscode' --exclude='launch' --exclude='src' --exclude='build' --exclude='devel' --exclude='install' . temp_dir && \
 	docker cp -a temp_dir/. $(CONTAINER_NAME):/home/$(USER)/$(CONTAINER_NAME) && \
 	rm -rf temp_dir
 
