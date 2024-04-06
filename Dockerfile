@@ -136,27 +136,12 @@ RUN sudo bash ./install_geographiclib_datasets.sh
 
 # COPY capstonerov $HOME/capstonerov
 COPY . $HOME/capstonerov
-WORKDIR $HOME/capstonerov
 RUN sudo chown -R $USER:$USER $HOME/capstonerov
+WORKDIR $HOME/capstonerov
 
 # Source the ROS environment by default
 RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 RUN echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
-
-# COPY capstonerov $HOME/capstonerov
-COPY ./include/ardupilot_gazebo $HOME/capstonerov/include/ardupilot_gazebo
-WORKDIR $HOME/capstonerov
-RUN sudo chown -R $USER:$USER $HOME/capstonerov
-
-# Libpointmatcher
-# COPY --chown=1000:1000 src/deps/libpointmatcher $HOME/capstonerov/libpointmatcher
-WORKDIR $HOME/capstonerov
-RUN git clone https://github.com/norlab-ulaval/libpointmatcher libpointmatcher
-RUN sudo chown -R $USER:$USER $HOME/capstonerov/libpointmatcher
-RUN mkdir -p $HOME/capstonerov/libpointmatcher/build && cd $HOME/capstonerov/libpointmatcher/build && \
-    /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DUSE_OPEN_MP=TRUE .. && make -j && sudo make install"
-
-RUN sudo apt-get install -y ros-melodic-nav-core
 
 # Source the Gazebo environment for plugins
 RUN /bin/bash -c "source /usr/share/gazebo/setup.sh"
@@ -169,10 +154,9 @@ RUN echo "export GAZEBO_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GAZEBO_PLUGIN
 WORKDIR $HOME/capstonerov/include/ardupilot_gazebo
 RUN make build 
 
-# Libpointmatcher (SLAM Req)
+# Libpointmatcher (SLAM Req) 
 WORKDIR $HOME/capstonerov
 RUN git clone https://github.com/norlab-ulaval/libpointmatcher libpointmatcher
-RUN sudo chown -R $USER:$USER $HOME/capstonerov/libpointmatcher
 RUN mkdir -p $HOME/capstonerov/libpointmatcher/build && cd $HOME/capstonerov/libpointmatcher/build && \
     /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DUSE_OPEN_MP=TRUE .. && make -j && sudo make install"
 
@@ -184,6 +168,7 @@ RUN mkdir -p $HOME/capstonerov/gtsam/build && cd $HOME/capstonerov/gtsam/build &
     /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=2.7 .. && make -j8 && sudo make install python-install"
 
 # Make workspace
+WORKDIR $HOME/capstonerov
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make -j"
 RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
