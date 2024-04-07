@@ -39,13 +39,14 @@ run_container:
 	--env="DISPLAY" --env="QT_X11_NO_MITSHM=1" \
 	--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name $(CONTAINER_NAME) \
 	--volume="$(pwd)/src:/home/$(USER)/$(CONTAINER_NAME)/src" \
+	--volume="$(pwd)/include/ardupilot_gazebo/src:/home/$(USER)/$(CONTAINER_NAME)/include/ardupilot_gazebo/src" \
 	-w /home/$(USER)/$(CONTAINER_NAME) $(IMAGE_NAME)
 
 # Reuse created container
 .PHONY: reuse
 reuse:
 	sudo docker start $(CONTAINER_NAME)
-	sudo docker exec -it --user $(USER) $(CONTAINER_NAME) /bin/bash
+	sudo docker exec -it --ufser $(USER) $(CONTAINER_NAME) /bin/bash
 	sudo docker stop $(CONTAINER_NAME)
 
 # Run docker container
@@ -66,7 +67,7 @@ rerun:
 run:
 	make init_submodule && \
 	make build_if_not_exists && \
-	make copy && \
+	(make copy || rm -rf temp_dir) && \
 	make run_container || \
 	echo "Container $(CONTAINER_NAME) found, starting container." && \
 	sudo docker start -i $(CONTAINER_NAME)
@@ -93,4 +94,4 @@ launch_sim:
 
 .PHONY: launch_sitl
 launch_sitl:
-	sim_vehicle.py -j6 -v ArduSub -f gazebo-bluerov2 -l 55.60304,12.808937,0,0 --console out=udp:0.0.0.0:14550 --add-param-file=$(pwd)/src/bluerov2_sim/bluerov2_ardusub/config/mav.param
+	sim_vehicle.py -j6 -v ArduSub -f gazebo-bluerov2 -l 55.60304,12.808937,0,0 --console out=udp:0.0.0.0:14550 --add-param-file=$(pwd)/src/bluerov2_sim/bluerov2_ardusub/config/vectored6dof.param
