@@ -1,0 +1,5 @@
+bluerov2_sim/bluerov2_neptus
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_neptus/cmake.lock /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/./cmake.lock
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_neptus/share/bluerov2_neptus/cmake/bluerov2_neptusConfig-version.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/bluerov2_neptus/cmake/bluerov2_neptusConfig-version.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_neptus/share/bluerov2_neptus/cmake/bluerov2_neptusConfig.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/bluerov2_neptus/cmake/bluerov2_neptusConfig.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_neptus/lib/pkgconfig/bluerov2_neptus.pc /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/pkgconfig/bluerov2_neptus.pc

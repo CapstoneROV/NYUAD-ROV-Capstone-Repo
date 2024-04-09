@@ -1,0 +1,9 @@
+quad_control
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_control/cmake.lock /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/./cmake.lock
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_control/share/quad_control/cmake/quad_controlConfig.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/quad_control/cmake/quad_controlConfig.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_control/share/quad_control/cmake/quad_controlConfig-version.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/quad_control/cmake/quad_controlConfig-version.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_control/lib/libquad_controller.so /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/libquad_controller.so
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_control/lib/pkgconfig/quad_control.pc /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/pkgconfig/quad_control.pc
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_control/lib/quad_control/attitude_controller_node /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/quad_control/attitude_controller_node
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_control/lib/quad_control/position_controller_node /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/quad_control/position_controller_node
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_control/lib/quad_control/waypoint_publisher_node /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/quad_control/waypoint_publisher_node

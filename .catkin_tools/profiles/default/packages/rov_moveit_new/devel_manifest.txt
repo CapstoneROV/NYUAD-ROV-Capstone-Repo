@@ -1,0 +1,5 @@
+rov_moveit_new
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/rov_moveit_new/cmake.lock /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/./cmake.lock
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/rov_moveit_new/share/rov_moveit_new/cmake/rov_moveit_newConfig-version.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/rov_moveit_new/cmake/rov_moveit_newConfig-version.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/rov_moveit_new/share/rov_moveit_new/cmake/rov_moveit_newConfig.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/rov_moveit_new/cmake/rov_moveit_newConfig.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/rov_moveit_new/lib/pkgconfig/rov_moveit_new.pc /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/pkgconfig/rov_moveit_new.pc

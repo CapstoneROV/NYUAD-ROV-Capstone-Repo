@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: bluerov2_description
+    relative_path: robots/default.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/bluerov2.srdf
+  CONFIG:
+    author_name: np
+    author_email: np@gmail.com
+    generated_timestamp: 1712520290

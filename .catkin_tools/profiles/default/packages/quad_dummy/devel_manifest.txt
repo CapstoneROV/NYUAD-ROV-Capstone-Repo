@@ -1,0 +1,5 @@
+quad_dummy
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_dummy/cmake.lock /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/./cmake.lock
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_dummy/share/quad_dummy/cmake/quad_dummyConfig-version.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/quad_dummy/cmake/quad_dummyConfig-version.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_dummy/share/quad_dummy/cmake/quad_dummyConfig.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/quad_dummy/cmake/quad_dummyConfig.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad_dummy/lib/pkgconfig/quad_dummy.pc /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/pkgconfig/quad_dummy.pc

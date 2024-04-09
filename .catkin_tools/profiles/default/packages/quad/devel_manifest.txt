@@ -1,0 +1,5 @@
+quad
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad/cmake.lock /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/./cmake.lock
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad/share/quad/cmake/quadConfig.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/quad/cmake/quadConfig.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad/share/quad/cmake/quadConfig-version.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/quad/cmake/quadConfig-version.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/quad/lib/pkgconfig/quad.pc /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/pkgconfig/quad.pc

@@ -1,0 +1,5 @@
+bluerov2_sim/bluerov2_bringup
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_bringup/cmake.lock /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/./cmake.lock
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_bringup/share/bluerov2_bringup/cmake/bluerov2_bringupConfig-version.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/bluerov2_bringup/cmake/bluerov2_bringupConfig-version.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_bringup/share/bluerov2_bringup/cmake/bluerov2_bringupConfig.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/bluerov2_bringup/cmake/bluerov2_bringupConfig.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_bringup/lib/pkgconfig/bluerov2_bringup.pc /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/pkgconfig/bluerov2_bringup.pc

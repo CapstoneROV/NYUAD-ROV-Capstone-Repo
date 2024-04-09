@@ -1,0 +1,23 @@
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_py
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target std_msgs_generate_messages_nodejs
+[  0%] Built target _mav_msgs_generate_messages_check_deps_CommandMotorSpeed
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target _mav_msgs_generate_messages_check_deps_CommandAttitudeThrust
+[  0%] Built target _mav_msgs_generate_messages_check_deps_CommandRateThrust
+[  0%] Built target _mav_msgs_generate_messages_check_deps_MotorSpeed
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[  0%] Built target _mav_msgs_generate_messages_check_deps_CommandRollPitchYawrateThrust
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target _mav_msgs_generate_messages_check_deps_CommandVelocityTrajectory
+[  0%] Built target _mav_msgs_generate_messages_check_deps_CommandTrajectory
+[  0%] Built target std_msgs_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[ 21%] Built target mav_msgs_generate_messages_py
+[ 40%] Built target mav_msgs_generate_messages_cpp
+[ 59%] Built target mav_msgs_generate_messages_nodejs
+[ 78%] Built target mav_msgs_generate_messages_lisp
+[100%] Built target mav_msgs_generate_messages_eus
+[100%] Built target mav_msgs_generate_messages

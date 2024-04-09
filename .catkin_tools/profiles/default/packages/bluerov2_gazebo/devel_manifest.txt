@@ -1,0 +1,5 @@
+bluerov2_sim/bluerov2_gazebo
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_gazebo/cmake.lock /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/./cmake.lock
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_gazebo/share/bluerov2_gazebo/cmake/bluerov2_gazeboConfig.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/bluerov2_gazebo/cmake/bluerov2_gazeboConfig.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_gazebo/share/bluerov2_gazebo/cmake/bluerov2_gazeboConfig-version.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/bluerov2_gazebo/cmake/bluerov2_gazeboConfig-version.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/bluerov2_gazebo/lib/pkgconfig/bluerov2_gazebo.pc /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/pkgconfig/bluerov2_gazebo.pc
