@@ -1,3 +1,3 @@
 <launch>
-<rosparam command="load" file="$(find rov_path_planning)/config/sensors_kinect.yaml" />
+<rosparam command="load" file="$(find rov_path_planning)/config/sensors_3d.yaml" />
 </launch>

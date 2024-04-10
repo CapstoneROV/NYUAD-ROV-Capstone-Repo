@@ -1,4 +1,0 @@
-[31m[1mCMake Error[0m at /home/nyuad/NYUAD-ROV-Capstone-Repo/src/ompl/CMakeLists.txt:1 (cmake_minimum_required):
-  CMake 3.12 or higher is required.  You are running version 3.10.2
-
-
