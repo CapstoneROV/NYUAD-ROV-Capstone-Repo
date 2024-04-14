@@ -3,7 +3,7 @@
 ## Path Planning Problem Defination
 
 ### Launch the Path Planning Node
-![Path Planning](images/pp_def.png)
+![Path Planning](pp_def.png)
 
 To start the path planning ROS node with the associated launch file, use the following command:
 
