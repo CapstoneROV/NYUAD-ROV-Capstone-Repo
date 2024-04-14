@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     curl \
     gnupg2 \
     sudo \
-    software-properties-common
+    software-properties-common \
+    wget
 
 # Add the ROS repository
 RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - && \
@@ -26,6 +27,17 @@ RUN echo 'Defaults env_keep += "DEBIAN_FRONTEND USER"' | EDITOR='tee -a' visudo
 RUN chmod 0440 /etc/sudoers.d/$USER
 USER $USER
 
+# Install new cmake & Boost
+# RUN sudo apt-get -y --purge remove libboost-all-dev libboost-doc libboost-dev
+# RUN sudo add-apt-repository ppa:mhier/libboost-latest
+# RUN sudo apt-get update
+# RUN sudo apt-get install boost1.67 -y
+
+# ADD https://cmake.org/files/v3.27/cmake-3.27.2-linux-x86_64.sh /cmake-3.27.2-linux-x86_64.sh
+# RUN sudo mkdir /opt/cmake
+# RUN sudo sh /cmake-3.27.2-linux-x86_64.sh --prefix=/opt/cmake --skip-license
+# RUN sudo ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
+
 # Install ROS Melodic
 RUN sudo apt-get update && sudo apt-get install -y ros-melodic-desktop-full
 
@@ -37,7 +49,8 @@ RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-uuv-simulator \
     ros-melodic-geodesy \
     ros-melodic-robot-localization \
-    ros-melodic-message-to-tf
+    ros-melodic-message-to-tf \
+    ros-melodic-tf2-sensor-msgs
 
 #Install Octomap package 
 RUN sudo apt-get install --no-install-recommends -y \
@@ -45,6 +58,20 @@ RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-octomap-ros \
     ros-melodic-octomap-msgs
     
+
+# Download and install Boost 1.67 in a separate directory
+# RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.67.0/source/boost_1_67_0.tar.gz -O /tmp/boost_1_67_0.tar.gz && \
+#     tar -xzf /tmp/boost_1_67_0.tar.gz -C /tmp && \
+#     cd /tmp/boost_1_67_0 && \
+#     ./bootstrap.sh --prefix=/home/ardupilot/boost_1_67_0 && \
+#     ./b2 install && \
+#     rm /tmp/boost_1_67_0.tar.gz
+
+# # Set Boost 1.67 environment variables
+# ENV BOOST_ROOT=/home/ardupilot/boost_1_67_0
+# ENV LD_LIBRARY_PATH=${BOOST_ROOT}/lib:${LD_LIBRARY_PATH}
+# ENV CPLUS_INCLUDE_PATH=${BOOST_ROOT}/include:${CPLUS_INCLUDE_PATH}
+
 
 # Install Mavros
 RUN sudo apt-get install -y \
