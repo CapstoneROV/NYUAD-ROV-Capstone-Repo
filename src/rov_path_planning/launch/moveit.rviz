@@ -1,11 +1,11 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 138
+    Help Height: 0
     Name: Displays
     Property Tree Widget:
       Expanded: ~
       Splitter Ratio: 0.7425600290298462
-    Tree Height: 267
+    Tree Height: 497
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -45,7 +45,7 @@ Visualization Manager:
       MoveIt_Allow_Approximate_IK: false
       MoveIt_Allow_External_Program: false
       MoveIt_Allow_Replanning: false
-      MoveIt_Allow_Sensor_Positioning: false
+      MoveIt_Allow_Sensor_Positioning: true
       MoveIt_Planning_Attempts: 10
       MoveIt_Planning_Time: 5
       MoveIt_Use_Cartesian_Path: false
@@ -58,9 +58,9 @@ Visualization Manager:
           Y: 0
           Z: 0
         Size:
-          X: 2
+          X: 3
           Y: 10
-          Z: 2
+          Z: 3
       Name: MotionPlanning
       Planned Path:
         Color Enabled: false
@@ -186,7 +186,7 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-        Loop Animation: true
+        Loop Animation: false
         Robot Alpha: 0.5
         Robot Color: 150; 50; 150
         Show Robot Collision: false
@@ -194,7 +194,7 @@ Visualization Manager:
         Show Trail: false
         State Display Time: 0.05 s
         Trail Step Size: 1
-        Trajectory Topic: move_group/display_planned_path
+        Trajectory Topic: /move_group/display_planned_path
       Planning Metrics:
         Payload: 1
         Show Joint Torques: false
@@ -206,7 +206,7 @@ Visualization Manager:
         Colliding Link Color: 255; 0; 0
         Goal State Alpha: 1
         Goal State Color: 250; 128; 0
-        Interactive Marker Size: 0
+        Interactive Marker Size: 0.35
         Joint Violation Color: 255; 0; 255
         Planning Group: Quad_base
         Query Goal State: true
@@ -217,9 +217,9 @@ Visualization Manager:
       Planning Scene Topic: move_group/monitored_planning_scene
       Robot Description: robot_description
       Scene Geometry:
-        Scene Alpha: 1
+        Scene Alpha: 0.8999999761581421
         Scene Color: 50; 230; 50
-        Scene Display Time: 0.20000000298023224
+        Scene Display Time: 0.009999999776482582
         Show Scene Geometry: true
         Voxel Coloring: Z-Axis
         Voxel Rendering: Occupied Voxels
@@ -346,11 +346,148 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-        Robot Alpha: 0.5
+        Robot Alpha: 1
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
       Velocity_Scaling_Factor: 1
+    - Class: moveit_rviz_plugin/Trajectory
+      Color Enabled: false
+      Enabled: true
+      Interrupt Display: false
+      Links:
+        /camera_down_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        /camera_down_link_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        /camera_front_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        /camera_front_link_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        bluerov2/base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/gps_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/mbe_sonar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/ping2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/ping360_depth_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/ping360_sonar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/pose_sensor_link_default:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/pressure_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/thruster_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/thruster_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/thruster_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/thruster_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/thruster_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/thruster_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bluerov2/thruster_sitl_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/thruster_sitl_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/thruster_sitl_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/thruster_sitl_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/thruster_sitl_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bluerov2/thruster_sitl_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Loop Animation: false
+      Name: Trajectory
+      Robot Alpha: 0.5
+      Robot Color: 150; 50; 150
+      Robot Description: robot_description
+      Show Robot Collision: false
+      Show Robot Visual: true
+      Show Trail: false
+      State Display Time: 0.05 s
+      Trail Step Size: 1
+      Trajectory Topic: /move_group/display_planned_path
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -367,25 +504,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 5.927040100097656
+      Distance: 4.6395792961120605
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -4.840126037597656
-        Y: 2.697098731994629
-        Z: -9.60975739872083e-7
+        X: -1.8996894359588623
+        Y: 1.4731663465499878
+        Z: -1.139789674198255e-6
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.28479671478271484
+      Pitch: 1.5697963237762451
       Target Frame: bluerov2/base_link
       Value: XYOrbit (rviz)
-      Yaw: 2.9467668533325195
+      Yaw: 3.1067659854888916
     Saved: ~
 Window Geometry:
   Displays:
@@ -397,9 +534,11 @@ Window Geometry:
   Hide Right Dock: false
   MotionPlanning:
     collapsed: false
-  MotionPlanning - Trajectory Slider:
+  MotionPlanning - Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000003a300000535fc0200000007fb000000100044006900730070006c006100790073010000006e000002030000018200fffffffb0000000800480065006c00700000000342000000bb000000d400fffffffb0000000a0056006900650077007300000003b0000000b00000013200fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000002600000026fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000027d00000326000002b900ffffff000005cb0000053500000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000003a300000535fc020000000afb000000100044006900730070006c006100790073010000006e0000025f0000018200fffffffb0000000800480065006c00700000000342000000bb000000d400fffffffb0000000a0056006900650077007300000003b0000000b00000013200fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000027d000003260000000000000000fb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000007a00fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000002d9000002ca000002b900fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000007a00ffffff000005cb0000053500000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Trajectory - Slider:
+    collapsed: false
   Views:
     collapsed: false
   Width: 2426
