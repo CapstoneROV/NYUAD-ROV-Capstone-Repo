@@ -2,9 +2,9 @@
 
 ## Path Planning Problem Defination
 
-### Launch the Path Planning Node
-![Path Planning](pp_def.png)
 
+![Path Planning](pp_def.png)
+### Launch the Path Planning Node
 To start the path planning ROS node with the associated launch file, use the following command:
 
 ```bash
