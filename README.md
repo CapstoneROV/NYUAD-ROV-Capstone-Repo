@@ -1,4 +1,38 @@
-# NYUAD ROV Capstone Repo
+#### Git clone and build ~ Tested on Ubuntu 18 and ROS Melodic
+
+## Path Planning
+
+### Launch the Path Planning Node
+
+To start the path planning ROS node with the associated launch file, use the following command:
+
+```bash
+roslaunch rov_path_planning rov_path_plan.launch
+```
+
+### Play Back a ROS Bag
+
+Currently an external recorded bag file is used to publish the octomap. To simulate sensor data or input data for testing, you can play back a ROS bag file:
+
+```bash
+rosbag play ~/NYUAD-ROV-Capstone-Repo/src/rov_path_planning/bags/octomap_sample.bag.orig.bz2
+```
+
+### Run the Waypoint Publisher
+
+To execute the path planning and publish waypoints to the robot, run the waypoint publisher script:
+
+```bash
+rosrun rov_path_planning waypoint_publisher.py
+```
+
+### Contact for Issues
+
+For any issues or further queries regarding path planning, please contact: np2289@nyu.edu
+
+
+##############################################################################################
+## NYUAD ROV Capstone Repo
 
 ![Image of Version](https://img.shields.io/badge/version-latest-blue)
 ![ROS Ubuntu 18.04 Docker](https://img.shields.io/badge/docker-ROS%20Ubuntu%2018.04-blue)
