@@ -1,0 +1,25 @@
+digraph G {
+"m100/odom_ekf" -> "base_link"[label="Broadcaster: /virtual_joint_broadcaster_0\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"map" -> "m100/odom_ekf"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 20.328 Hz\nMost recent transform: 67.952 ( 17.768 sec old)\nBuffer length: 3.050 sec\n"];
+"world" -> "map"[label="Broadcaster: /world_to_map_broadcaster\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"m100/base_link" -> "m100/base_link_inertia"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"m100/odom_ekf" -> "m100/base_link"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 476.036 Hz\nMost recent transform: 67.858 ( 17.862 sec old)\nBuffer length: 3.088 sec\n"];
+"m100/base_link" -> "m100/camera_front_link"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"m100/camera_front_link" -> "m100/camera_front"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"m100/base_link" -> "m100/electromagnet_actuator"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"m100/electromagnet_actuator" -> "m100/electromagnet_bar"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"m100/base_link" -> "m100/flow_camera_link"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"m100/base_link" -> "m100/z_ranger_link"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 85.720 sec old)\nBuffer length: 0.000 sec\n"];
+"m100/odometry_gt" -> "m100/base_link_gt"[label="Broadcaster: /play_1713390025551857154\nAverage rate: 384.316 Hz\nMost recent transform: 67.856 ( 17.864 sec old)\nBuffer length: 3.086 sec\n"];
+"base_link" -> "imu_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.385 Hz\nMost recent transform: 85.700 ( 0.020 sec old)\nBuffer length: 2.600 sec\n"];
+"base_link" -> "mbe_sonar_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.385 Hz\nMost recent transform: 85.700 ( 0.020 sec old)\nBuffer length: 2.600 sec\n"];
+"base_link" -> "ping360_sonar_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.385 Hz\nMost recent transform: 85.700 ( 0.020 sec old)\nBuffer length: 2.600 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 85.720"[ shape=plaintext ] ;
+ }->"world";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 85.720"[ shape=plaintext ] ;
+ }->"m100/odometry_gt";
+}

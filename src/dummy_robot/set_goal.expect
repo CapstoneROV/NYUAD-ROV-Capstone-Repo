@@ -1,0 +1,49 @@
+#!/usr/bin/expect
+
+# Set the timeout for each command
+set timeout 20
+
+# Launch the MoveIt Commander CLI
+spawn rosrun moveit_commander moveit_commander_cmdline.py
+expect ">"
+
+# Connect to the specified robot group
+send "use base\r"
+expect ">"
+
+# Get the current state of the group
+send "current\r"
+expect ">"
+
+# Record the current state under a specific name
+send "rec c\r"
+expect ">"
+
+# Prompt the user to input the 7 values for the goal
+send_user "Please input the 7 values for the goal (x y z qx qy qz qw): "
+expect_user -re "(.*)\n"
+set goal_values [split $expect_out(1,string) " "]
+
+# Set the goal state using the recorded state as a base
+send "goal = c\r"
+expect ">"
+
+# Iterate through each of the 7 input values to update the goal state
+for {set i 0} {$i < 7} {incr i} {
+    send "goal\[$i\] = [lindex $goal_values $i]\r"
+    expect ">"
+}
+
+# Plan the motion to the goal state
+send "plan goal\r"
+expect ">"
+expect "Planning to goal: Succeeded"
+
+# Execute the computed motion plan
+send "execute\r"
+expect ">"
+expect "Motion execution completed"
+
+# Close the MoveIt Commander CLI
+send "quit\r"
+expect eof

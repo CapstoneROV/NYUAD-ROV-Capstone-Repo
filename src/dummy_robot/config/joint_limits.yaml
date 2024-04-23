@@ -1,0 +1,32 @@
+joint_limits:
+  virtual_joint:
+    has_velocity_limits: true
+    max_velocity: 0.2
+    has_acceleration_limits: true
+    max_acceleration: 0.04
+    max_position: 1.57
+    min_position: -1.57
+  
+  rot_x:  # Joint responsible for roll
+    has_velocity_limits: true
+    max_velocity: 0.1  # Reduced velocity limit for roll
+    has_acceleration_limits: true
+    max_acceleration: 0.02  # Reduced acceleration limit for roll
+    max_position: 0.1745  # ±10 degrees in radians for roll
+    min_position: -0.1745
+
+  rot_y:  # Joint responsible for pitch
+    has_velocity_limits: true
+    max_velocity: 0.1  # Reduced velocity limit for pitch
+    has_acceleration_limits: true
+    max_acceleration: 0.02  # Reduced acceleration limit for pitch
+    max_position: 0.1745  # ±10 degrees in radians for pitch
+    min_position: -0.1745
+
+  rot_z:
+    has_velocity_limits: true
+    max_velocity: 0.2
+    has_acceleration_limits: true
+    max_acceleration: 0.04
+    max_position: 1.57
+    min_position: -1.57

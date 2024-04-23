@@ -1,0 +1,50 @@
+<launch>
+  <arg name="db" default="false" />
+  <arg name="db_path" default="$(find dummy_robot)/default_warehouse_mongo_db" />
+ 
+  <arg name="debug" default="false" />
+<!--By default, we won't load or override the robot_description -->
+  <arg name="load_robot_description" default="false"/>
+
+  <arg name="use_gui" default="false" />
+
+  <!-- Gazebo specific options -->
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="paused" default="false"/>
+  <!-- By default, use the urdf location provided from the package -->
+  <arg name="urdf_path" default="$(find sonar_testing)/urdf/dummy.urdf"/>
+
+  <!-- launch the gazebo simulator and spawn the robot -->
+  <!-- <include file="$(find dummy_robot)/launch/gazebo.launch" >
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gazebo_gui" value="$(arg gazebo_gui)"/>
+    <arg name="urdf_path" value="$(arg urdf_path)"/>
+  </include> -->
+
+<!--pseudo sensor load-->
+  <rosparam command="load" file="$(find dummy_robot)/config/sensor_manager.yaml" />
+
+  <!-- If needed, broadcast static tf for robot root -->
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="link_dummy_to_base_link" args="0 0 0 0 0 0 m100/base_link dummy/base_link" /-->
+
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 world base_link" /-->
+
+ <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_base_link_broadcaster"
+      args="0 0 0 0 0 0 map base_link" /> 
+
+  <!--addding dummy octomap-->
+  <!--node name = "add_collision_object_node" pkg = "dummy_robot"  type="add_collision_object.py" output="screen" / -->
+
+  <!--node name="structured_point_cloud_publisher" pkg="fake_sensor_py" type="structured_point_cloud_publisher_old.py" output="screen" /-->
+
+
+
+  <!-- Launch the MoveIt planning scene updater -->
+<!--   
+  <node name="rosbag_play_octomap" pkg="rosbag" type="play" args="-d 2 /home/nyuad/ws_moveit/octomap_sample.bag.b2" launch-prefix="xterm -e" /> -->
+
+
+  <node name="octomap_to_moveit" pkg="dummy_robot" type="add_drone_octomap.py" output="screen" />
+
+
+</launch>

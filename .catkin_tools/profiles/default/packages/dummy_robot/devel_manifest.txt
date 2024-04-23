@@ -1,0 +1,5 @@
+dummy_robot
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/dummy_robot/cmake.lock /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/./cmake.lock
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/dummy_robot/share/dummy_robot/cmake/dummy_robotConfig-version.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/dummy_robot/cmake/dummy_robotConfig-version.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/dummy_robot/share/dummy_robot/cmake/dummy_robotConfig.cmake /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/share/dummy_robot/cmake/dummy_robotConfig.cmake
+/home/nyuad/NYUAD-ROV-Capstone-Repo/devel/.private/dummy_robot/lib/pkgconfig/dummy_robot.pc /home/nyuad/NYUAD-ROV-Capstone-Repo/devel/lib/pkgconfig/dummy_robot.pc

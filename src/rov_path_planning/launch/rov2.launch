@@ -1,0 +1,22 @@
+<launch>
+  <!-- Argument to enable debugging -->
+  <arg name="debug" default="false" />
+
+  <!-- Argument to decide if robot description should be loaded -->
+  <arg name="load_robot_description" default="false"/>
+
+  <!-- Include the Move Group functionality -->
+  <include file="$(find rov_path_planning)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="fake_execution" value="true"/>
+    <arg name="info" value="false"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+  </include>
+  
+  <!-- Run Rviz configured for MoveIt -->
+  <include file="$(find rov_path_planning)/launch/moveit_rviz.launch">
+    <arg name="rviz_config" value="$(find rov_path_planning)/launch/moveit.rviz"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+</launch>
