@@ -6,25 +6,37 @@
 ![Path Planning](pp_def.png)
 ### Launch the Path Planning Node
 To start the path planning ROS node with the associated launch file, use the following command:
+Sure, here are the updated instructions formatted as plain text:
 
-```bash
-roslaunch rov_path_planning rov_path_plan.launch
+---
+
+**Launch the Simulation**
+
+To launch the Gazebo simulation, use the following command:
+```
+roslaunch dummy_robot demo_gazebo.launch
 ```
 
-### Play Back a ROS Bag
+**Play Back a ROS Bag**
 
-Currently an external recorded bag file is used to publish the octomap. To simulate sensor data or input data for testing, you can play back a ROS bag file:
-
-```bash
-rosbag play ~/NYUAD-ROV-Capstone-Repo/src/rov_path_planning/bags/octomap_sample.bag.orig.bz2
+Currently, an external recorded bag file is used to publish the octomap. To simulate sensor data or input data for testing, you can play back a ROS bag file:
+```
+rosbag play /NYUAD-ROV-Capstone-Repo/src/rov_path_planning/bags/octomap_sample.bag.orig.bz2
 ```
 
-### Run the Waypoint Publisher
+**Run the Waypoint Publisher**
 
 To execute the path planning and publish waypoints to the robot, run the waypoint publisher script:
-
-```bash
+```
 rosrun rov_path_planning waypoint_publisher.py
+```
+
+**Set Goals Using an Expect Script**
+
+Navigate to the `dummy_robot` directory and execute the `set_goal.expect` script:
+```
+cd ~/NYUAD-ROV-Capstone-Repo/src/dummy_robot
+./set_goal.expect
 ```
 
 ### Contact for Issues
@@ -32,7 +44,7 @@ rosrun rov_path_planning waypoint_publisher.py
 For any issues or further queries regarding path planning, please contact: np2289@nyu.edu
 
 
-##############################################################################################
+#####################################################################################
 ## NYUAD ROV Capstone Repo
 
 ![Image of Version](https://img.shields.io/badge/version-latest-blue)
