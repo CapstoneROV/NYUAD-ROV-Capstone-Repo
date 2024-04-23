@@ -1,9 +1,10 @@
 #### Git clone and build ~ Tested on Ubuntu 18 and ROS Melodic
 
-## Path Planning
+## Path Planning Problem Defination
 
+
+![Path Planning](pp_def.png)
 ### Launch the Path Planning Node
-
 To start the path planning ROS node with the associated launch file, use the following command:
 
 ```bash
