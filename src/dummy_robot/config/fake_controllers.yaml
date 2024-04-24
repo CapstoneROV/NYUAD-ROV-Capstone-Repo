@@ -1,8 +1,0 @@
-controller_list:
-  - name: fake_base_controller
-    type: $(arg fake_execution_type)
-    joints:
-      - virtual_joint
-initial:  # Define initial robot poses.
-  - group: base
-    pose: home

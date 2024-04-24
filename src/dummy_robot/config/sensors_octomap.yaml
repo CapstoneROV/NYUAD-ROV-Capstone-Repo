@@ -1,4 +1,0 @@
-octomap_updater:
-  sensor_plugin: occupancy_map_monitor/MoveItExternalOctomapUpdater
-  octomap_frame: map
-  octomap_resolution: 0.05

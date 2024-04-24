@@ -1,0 +1,3 @@
+[ 33%] Built target sonar_transformer
+[ 66%] Built target 3d_reconstruction
+[100%] Built target dummy_plugin
