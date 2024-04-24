@@ -87,11 +87,27 @@ catkin_make:
 
 
 # DOCKER MAKEFILE COMMANDS
-# Launch sim.launch
+# ----------
+# SIMULATION
+# ----------
 .PHONY: launch_sim
 launch_sim:
 	roslaunch $(pwd)/launch/sim.launch
 
 .PHONY: launch_sitl
 launch_sitl:
-	sim_vehicle.py -j6 -v ArduSub -f gazebo-bluerov2 -l 55.60304,12.808937,0,0 --console out=udp:0.0.0.0:14550 --add-param-file=$(pwd)/src/bluerov2_sim/bluerov2_ardusub/config/vectored6dof.param
+	sim_vehicle.py -j6 -v ArduSub -f gazebo-bluerov2 -l 55.60304,12.808937,0,0 --console \
+	--out=udpout:0.0.0.0:14550 --out=udpout:0.0.0.0:14551 --out=udpout:0.0.0.0:14552 --out=udpout:0.0.0.0:14553 \
+	--out=udpout:0.0.0.0:14554 --out=udpout:0.0.0.0:14555 --add-param-file=$(pwd)/src/bluerov2_sim/bluerov2_ardusub/config/vectored6dof.param
+# -------
+# TOPSIDE
+# -------
+.PHONY: mav_proxy 
+mav_proxy:
+	mavproxy.py --master=udpout:192.168.2.2:14550 \
+	--out 127.0.0.1:14540 --out 127.0.0.1:14550 \
+	--out 127.0.0.1:14551 --out 127.0.0.1:14552
+
+.PHONY: mavros
+mavros:
+	roslaunch mavros apm.launch fcu_url:=udp://0.0.0.0:14550@

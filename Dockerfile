@@ -63,7 +63,9 @@ RUN pip install --no-cache-dir \
     catkin_pkg \
     pyyaml \
     empy==3.3.4 \
-    pymavlink 
+    pymavlink \
+    catkin_tools \
+    requests
 
 RUN pip3 install --no-cache-dir \
     numpy \
@@ -138,7 +140,7 @@ RUN echo "export GAZEBO_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GAZEBO_PLUGIN
 
 # Make workspace
 RUN pip install empy==3.3.4 mavproxy==1.8.69
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make -j"
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin build"
 RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
 WORKDIR $HOME/capstonerov/include/ardupilot_gazebo

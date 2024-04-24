@@ -22,3 +22,6 @@
 [submodule "src/pointcloud_registration"]
 	path = src/pointcloud_registration
 	url = https://github.com/CapstoneROV/pointcloud_registration
+[submodule "src/data_collection"]
+	path = src/data_collection
+	url = https://github.com/CapstoneROV/data_collection
