@@ -21,7 +21,7 @@ roslaunch dummy_robot demo_gazebo.launch
 
 Currently, an external recorded bag file is used to publish the octomap. To simulate sensor data or input data for testing, you can play back a ROS bag file:
 ```
-rosbag play /NYUAD-ROV-Capstone-Repo/src/rov_path_planning/bags/octomap_sample.bag.orig.bz2
+rosbag play ~/NYUAD-ROV-Capstone-Repo/src/rov_path_planning/bags/octomap_sample.bag.orig.bz2
 ```
 
 **Run the Waypoint Publisher**
