@@ -30,7 +30,7 @@ To execute the path planning and publish waypoints to the robot, follow these st
 ```bash
 cd ~/NYUAD-ROV-Capstone-Repo/src/dummy_robot/scripts
 ./waypoint_publisher.py
-
+```
 
 **Set Goals Using an Expect Script**
 
