@@ -26,10 +26,11 @@ rosbag play ~/NYUAD-ROV-Capstone-Repo/src/rov_path_planning/bags/octomap_sample.
 
 **Run the Waypoint Publisher**
 
-To execute the path planning and publish waypoints to the robot, run the waypoint publisher script:
-```
-rosrun rov_path_planning waypoint_publisher.py
-```
+To execute the path planning and publish waypoints to the robot, follow these steps:
+```bash
+cd ~/NYUAD-ROV-Capstone-Repo/src/dummy_robot/scripts
+./waypoint_publisher.py
+
 
 **Set Goals Using an Expect Script**
 
