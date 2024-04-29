@@ -25,3 +25,6 @@
 [submodule "src/sonar-SLAM"]
 	path = src/sonar-SLAM
 	url = https://github.com/CapstoneROV/sonar-SLAM
+[submodule "src/pointcloud_registration"]
+	path = src/pointcloud_registration
+	url = https://github.com/CapstoneROV/pointcloud_registration

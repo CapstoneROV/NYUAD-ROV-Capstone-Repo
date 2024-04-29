@@ -39,7 +39,11 @@ RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-libnabo \
     ros-melodic-message-to-tf \
     libomp-dev \
-    ros-melodic-vision-opencv 
+    ros-melodic-vision-opencv \
+    ros-melodic-nav-core \ 
+    ros-melodic-pybind11-catkin \
+    python3-catkin-tools \
+    ros-melodic-ros-numpy 
 
 # Install Mavros
 RUN sudo apt-get install -y \
@@ -107,7 +111,6 @@ RUN sudo chown -R $USER:$USER $HOME/ardupilot
 WORKDIR $HOME/ardupilot
 
 # Checkout specific commit (right before python3 transition)
-# RUN git checkout f823848
 RUN git checkout 8ae34a1
 
 # Instructions from http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html
@@ -119,26 +122,11 @@ RUN sudo apt-get install -y tzdata
 # Install ArduPilot SITL dependencies & build
 ENV SKIP_AP_EXT_ENV=1 SKIP_AP_GRAPHIC_ENV=1 SKIP_AP_COV_ENV=1 SKIP_AP_GIT_CHECK=1
 RUN ./Tools/environment_install/install-prereqs-ubuntu.sh -y
-# RUN pip3 install pexpect future
 RUN ./waf distclean && \
     ./waf configure --board sitl && \
     ./waf sub
-
-# Install QGroundControl
-# RUN usermod -a -G dialout $USER
-RUN sudo apt-get remove modemmanager -y
-# RUN sudo apt install -y \
-#     gstreamer1.0-plugins-bad \
-#     gstreamer1.0-libav \
-#     gstreamer1.0-gl \
-#     libqt5gui5 \
-#     libfuse2
-# RUN sudo curl -fsSL https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage -o QGroundControl.AppImage
-# RUN sudo chmod +x QGroundControl.AppImage
-RUN git clone https://github.com/mavlink/qgroundcontrol
-RUN git submodule update --init --recursive
-RUN sudo apt-get install speech-dispatcher libudev-dev libsdl2-dev patchelf build-essential -y
-
+# Override the python installs they made, this is to support python 2.7
+RUN pip install empy==3.3.4 mavproxy==1.8.69 
 RUN sudo chmod +x $HOME/ardupilot/Tools/autotest/sim_vehicle.py
 
 # Install geographic lib dataset
@@ -146,27 +134,14 @@ RUN sudo curl -sL https://raw.githubusercontent.com/mavlink/mavros/master/mavros
 RUN sudo chmod +x install_geographiclib_datasets.sh
 RUN sudo bash ./install_geographiclib_datasets.sh
 
-# Due to bug in current gazebo release from ROS, we need to install gazebo9 from source
-RUN sudo apt-get install libgazebo9-dev -y
+# COPY capstonerov $HOME/capstonerov
+COPY . $HOME/capstonerov
+RUN sudo chown -R $USER:$USER $HOME/capstonerov
+WORKDIR $HOME/capstonerov
 
 # Source the ROS environment by default
 RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 RUN echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
-
-# COPY capstonerov $HOME/capstonerov
-COPY ./include/ardupilot_gazebo $HOME/capstonerov/include/ardupilot_gazebo
-WORKDIR $HOME/capstonerov
-RUN sudo chown -R $USER:$USER $HOME/capstonerov
-
-# Libpointmatcher
-# COPY --chown=1000:1000 src/deps/libpointmatcher $HOME/capstonerov/libpointmatcher
-WORKDIR $HOME/capstonerov
-RUN git clone https://github.com/norlab-ulaval/libpointmatcher libpointmatcher
-RUN sudo chown -R $USER:$USER $HOME/capstonerov/libpointmatcher
-RUN mkdir -p $HOME/capstonerov/libpointmatcher/build && cd $HOME/capstonerov/libpointmatcher/build && \
-    /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DUSE_OPEN_MP=TRUE .. && make -j && sudo make install"
-
-RUN sudo apt-get install -y ros-melodic-nav-core
 
 # Source the Gazebo environment for plugins
 RUN /bin/bash -c "source /usr/share/gazebo/setup.sh"
@@ -175,35 +150,27 @@ RUN echo "export GAZEBO_MODEL_PATH=$HOME/ardupilot_gazebo/models_gazebo:${GAZEBO
 RUN echo "export GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/worlds:${GAZEBO_RESOURCE_PATH}" >> ~/.bashrc
 RUN echo "export GAZEBO_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GAZEBO_PLUGIN_PATH}" >> ~/.bashrc
 
-# install SLAM
-WORKDIR $HOME/capstonerov
-RUN git clone https://github.com/borglab/gtsam.git gtsam
-RUN sudo chown -R $USER:$USER $HOME/capstonerov/gtsam
-WORKDIR $HOME/capstonerov/gtsam
-RUN git checkout 4.1.0
-RUN mkdir -p $HOME/capstonerov/gtsam/build
-WORKDIR $HOME/capstonerov/gtsam/build
-RUN cmake -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=2.7 ..
-RUN make -j8
-RUN sudo make install python-install
-
-# Set the working directory to the copied volume
-WORKDIR $HOME/capstonerov
-
-RUN sudo apt-get install -y \ 
-    ros-melodic-pybind11-catkin \
-    python3-catkin-tools \
-    ros-melodic-ros-numpy 
-
-# Make workspace
-RUN (pip uninstall em empy -y || true) && pip install empy==3.3.4
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash"  
-RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
-
+# Install Ardupilot Gazebo plugin
 WORKDIR $HOME/capstonerov/include/ardupilot_gazebo
 RUN make build 
-# RUN mkdir build && cd ./build && cmake $HOME/capstonerov/include/ardupilot_gazebo && make -j && sudo make install
 
+# Libpointmatcher (SLAM Req) 
 WORKDIR $HOME/capstonerov
+RUN git clone https://github.com/norlab-ulaval/libpointmatcher libpointmatcher
+RUN mkdir -p $HOME/capstonerov/libpointmatcher/build && cd $HOME/capstonerov/libpointmatcher/build && \
+    /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DUSE_OPEN_MP=TRUE .. && make -j && sudo make install"
+
+# Install SLAM
+RUN git clone --no-checkout https://github.com/borglab/gtsam.git gtsam
+WORKDIR $HOME/capstonerov/gtsam
+RUN git checkout 4.1.0
+RUN mkdir -p $HOME/capstonerov/gtsam/build && cd $HOME/capstonerov/gtsam/build && \
+    /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=2.7 .. && make -j8 && sudo make install python-install"
+
+# Make workspace
+WORKDIR $HOME/capstonerov
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make -j"
+RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
+
 # Set the default command to bash
 CMD exec bash
