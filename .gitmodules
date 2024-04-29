@@ -21,7 +21,7 @@
 	url = https://github.com/CapstoneROV/simulation_worlds
 [submodule "src/deps/Argonaut"]
 	path = src/deps/Argonaut
-	url = https://github.com/jake3991/Argonaut
+	url = https://github.com/CapstoneROV/Argonaut
 [submodule "src/sonar-SLAM"]
 	path = src/sonar-SLAM
 	url = https://github.com/CapstoneROV/sonar-SLAM
