@@ -157,20 +157,36 @@ RUN make build
 # Libpointmatcher (SLAM Req) 
 WORKDIR $HOME/capstonerov
 RUN git clone https://github.com/norlab-ulaval/libpointmatcher libpointmatcher
+RUN sudo chown -R $USER:$USER $HOME/capstonerov/libpointmatcher
 RUN mkdir -p $HOME/capstonerov/libpointmatcher/build && cd $HOME/capstonerov/libpointmatcher/build && \
     /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DUSE_OPEN_MP=TRUE .. && make -j && sudo make install"
 
-# Install SLAM
-RUN git clone --no-checkout https://github.com/borglab/gtsam.git gtsam
+RUN sudo apt-get install -y ros-melodic-nav-core
+
+# install SLAM
+WORKDIR $HOME/capstonerov
+RUN git clone https://github.com/borglab/gtsam.git gtsam
+RUN sudo chown -R $USER:$USER $HOME/capstonerov/gtsam
 WORKDIR $HOME/capstonerov/gtsam
 RUN git checkout 4.1.0
-RUN mkdir -p $HOME/capstonerov/gtsam/build && cd $HOME/capstonerov/gtsam/build && \
-    /bin/bash -c "source /opt/ros/melodic/setup.bash && cmake -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=2.7 .. && make -j8 && sudo make install python-install"
+RUN mkdir -p $HOME/capstonerov/gtsam/build
+WORKDIR $HOME/capstonerov/gtsam/build
+RUN cmake -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=2.7 ..
+RUN make -j8
+RUN sudo make install python-install
 
 # Make workspace
 WORKDIR $HOME/capstonerov
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make -j"
+
+RUN sudo apt-get install -y \ 
+    ros-melodic-pybind11-catkin \
+    python3-catkin-tools \
+    ros-melodic-ros-numpy
+
+# Make workspace
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash"  
 RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
+# RUN chmod +x ./src/sonar-SLAM/bruce_slam/scripts/sonar_slam_messaging.py 
 # Set the default command to bash
 CMD exec bash

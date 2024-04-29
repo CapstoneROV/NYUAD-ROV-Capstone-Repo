@@ -16,3 +16,4 @@ temp_dir
 
 # vscode
 .vscode
+*.bag*
