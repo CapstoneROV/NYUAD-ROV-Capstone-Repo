@@ -44,7 +44,7 @@ run_container:
 # Reuse created container
 .PHONY: reuse
 reuse:
-	sudo docker start $(CONTAINER_NAME)
+	sudo docker start $(CONTAINER_NAME)	
 	sudo docker exec -it --user $(USER) $(CONTAINER_NAME) /bin/bash
 	sudo docker stop $(CONTAINER_NAME)
 

@@ -25,6 +25,9 @@
 [submodule "src/octomap_mapping"]
 	path = src/octomap_mapping
 	url = https://github.com/CapstoneROV/octomap_mapping
-# [submodule "src/bluerobotics_ping360"]
-# 	path = src/bluerobotics_ping360
-# 	url = https://github.com/CapstoneROV/bluerobotics_ping360
+[submodule "src/bluerobotics_ping360"]
+	path = src/bluerobotics_ping360
+	url = https://github.com/CapstoneROV/bluerobotics_ping360
+[submodule "src/pose_to_tf"]
+	path = src/pose_to_tf
+	url = https://github.com/CapstoneROV/pose_to_tf

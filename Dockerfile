@@ -58,27 +58,14 @@ RUN sudo apt-get install --no-install-recommends -y \
     ros-melodic-octomap-ros \
     ros-melodic-octomap-msgs
     
-
-# Download and install Boost 1.67 in a separate directory
-# RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.67.0/source/boost_1_67_0.tar.gz -O /tmp/boost_1_67_0.tar.gz && \
-#     tar -xzf /tmp/boost_1_67_0.tar.gz -C /tmp && \
-#     cd /tmp/boost_1_67_0 && \
-#     ./bootstrap.sh --prefix=/home/ardupilot/boost_1_67_0 && \
-#     ./b2 install && \
-#     rm /tmp/boost_1_67_0.tar.gz
-
-# # Set Boost 1.67 environment variables
-# ENV BOOST_ROOT=/home/ardupilot/boost_1_67_0
-# ENV LD_LIBRARY_PATH=${BOOST_ROOT}/lib:${LD_LIBRARY_PATH}
-# ENV CPLUS_INCLUDE_PATH=${BOOST_ROOT}/include:${CPLUS_INCLUDE_PATH}
-
-
 # Install Mavros
 RUN sudo apt-get install -y \
     ros-melodic-mavros \
     ros-melodic-mavros-extras \
     ros-melodic-mavros-msgs
 
+#Install importlib-metadata for rosdep
+RUN pip install importlib-metadata
 # Install rosdep
 RUN sudo apt-get install -y python-rosdep
 
@@ -170,9 +157,21 @@ RUN echo "export GAZEBO_MODEL_PATH=$HOME/ardupilot_gazebo/models_gazebo:${GAZEBO
 RUN echo "export GAZEBO_RESOURCE_PATH=$HOME/ardupilot_gazebo/worlds:${GAZEBO_RESOURCE_PATH}" >> ~/.bashrc
 RUN echo "export GAZEBO_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GAZEBO_PLUGIN_PATH}" >> ~/.bashrc
 
+#Bootstrap installation
+ENV DST_DIR=/usr
+WORKDIR $HOME/capstonerov/include
+
+RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.67.0/source/boost_1_67_0.tar.gz && \
+    tar -xzf boost_1_67_0.tar.gz && \
+    rm boost_1_67_0.tar.gz
+    
+WORKDIR $HOME/capstonerov/include/boost_1_67_0
+RUN ./bootstrap.sh --prefix=${DST_DIR} --includedir=${DST_DIR}/headers --libdir=${DST_DIR}/dist --with-libraries=date_time && \
+    ./b2 install --prefix=${DST_DIR} --includedir=${DST_DIR}/headers --libdir=${DST_DIR}/dist
+
 # Make workspace
 RUN pip install empy==3.3.4 mavproxy==1.8.69
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make -j"
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash"
 RUN echo "source $HOME/capstonerov/devel/setup.bash" >> ~/.bashrc
 
 WORKDIR $HOME/capstonerov/include/ardupilot_gazebo
@@ -182,5 +181,4 @@ RUN make build
 WORKDIR $HOME/capstonerov
 # Set the default command to bash
 CMD exec bash
-
 
