@@ -3,9 +3,13 @@
 Clone this path planning branch of the repository and build docker
 ```
 git clone -b path_planning https://github.com/CapstoneROV/NYUAD-ROV-Capstone-Repo.git
+```
 
+```
 cd NYUAD-ROV-Capstone-Repo
+```
 
+```
 make run
 ```
 Details on running the docker found at end
@@ -71,6 +75,7 @@ roslaunch octomap_server octomap_mapping.launch
   <img src="./assets/pool_pcl.png" alt="Pool pcl" width="350"/>
 </div>
 <br>
+
 <center>Obstacle in front of the ROV at left and OctoMap of the obstacle and front wall on right </center>
 
 <br>
