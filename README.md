@@ -1,3 +1,82 @@
+# Path Planning Map Generation
+
+Clone this path planning branch of the repository and build docker
+```
+git clone -b path_planning https://github.com/CapstoneROV/NYUAD-ROV-Capstone-Repo.git
+
+cd NYUAD-ROV-Capstone-Repo
+
+make run
+```
+Details on running the docker found at end
+
+This docker environment consist of the packages to generate an OctoMap both in simulation and real life by using the Ping360 Sonar mounted on BlueROV2. 
+
+### Simulation of OctoMap Generation
+Start the sonar simulation from [sonar_testing package](https://github.com/CapstoneROV/sonar_testing). A point cloud is published on /dummy/ping360_sim_depth/depth/points from ping360_depth_link 
+
+```
+roslaunch sonar_testing dummy.launch
+```
+
+Transform the point cloud from ping360_depth_link to map
+
+```
+rosrun sonar_testing pcltransformer
+```
+
+Subscribe to the transformed point cloud and generate the octomap
+
+```
+roslaunch octomap_server octomap_mapping.launch
+```
+
+
+Add some obstacles in gazebo and run the box to observe the octomap when moving 
+```
+rostopic pub /dummy/goal geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 1.0, y: 0.0, z: 2.0}, orientation: {w: 1.0, x: 0.0, y: 0.0, z: 0.0}}}'
+```
+
+
+![Simulation Demo](./assets/SimulationRecording.gif)
+### Octomap Generation in Ping360 BlueROV2
+
+To get the sonar image and point cloud from the Ping360 Sonar of BlueRov2, [the bluerobotics_ping360](https://github.com/GSO-soslab/bluerobotics_ping360.git) ROS1 package is utilized. The parameters for the sonar such as scanning angle range and address can be adjusted in ping360.yaml config file and the approximate point cloud is published on /filtered_msis topic.
+
+
+![Pool Video](./assets/Poolvideo.gif)
+
+<center>Sonar image being generated real time on bottom left</center>
+<br>
+The nodes for getting the sonar image and processed point cloud can be run with
+
+``` 
+roslaunch ping360_sonar ping360_sonar.launch 
+```
+
+The bluerov2 link is acquired from the pose of the ROV in real time and the transformation from the ping360 link (of the /filtered_msis topic) to the map is done using [pose_to_tf](https://github.com/CapstoneROV/pose_to_tf.git) package
+
+```
+roslaunch pose_to_tf pose_to_tf.launch
+```
+
+To register the point cloud and build an octomap
+
+```
+roslaunch octomap_server octomap_mapping.launch
+```
+
+<div style="display: flex; justify-content: space-around;">
+  <img src="./assets/realpool.JPG" alt="RealPool" width="350"/>
+  <img src="./assets/pool_pcl.png" alt="Pool pcl" width="350"/>
+</div>
+<br>
+<center>Obstacle in front of the ROV at left and OctoMap of the obstacle and front wall on right </center>
+
+<br>
+
+For any queries on the map generation, reach out to Kirubel Solomon at kt2350@nyu.edu
+
 # NYUAD ROV Capstone Repo
 
 ![Image of Version](https://img.shields.io/badge/version-latest-blue)
