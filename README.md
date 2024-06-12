@@ -50,7 +50,10 @@ To get the sonar image and point cloud from the Ping360 Sonar of BlueRov2, [the 
 
 ![Pool Video](./assets/Poolvideo.gif)
 
-<center>Sonar image being generated real time on bottom left</center>
+<p align="center">
+Sonar image being generated real time on bottom left
+</p>
+
 <br>
 The nodes for getting the sonar image and processed point cloud can be run with
 
@@ -70,13 +73,13 @@ To register the point cloud and build an octomap
 roslaunch octomap_server octomap_mapping.launch
 ```
 
-<div style="display: flex; justify-content: space-around;">
-  <img src="./assets/realpool.JPG" alt="RealPool" width="350"/>
-  <img src="./assets/pool_pcl.png" alt="Pool pcl" width="350"/>
-</div>
-<br>
+<p align="center">
+  <img src="./assets/realpool.JPG" alt="RealPool" width="350" height="250"/>
+  <img src="./assets/pool_pcl.png" alt="Pool pcl" width="330" height="250"/>
+</p>
 
-<center>Obstacle in front of the ROV at left and OctoMap of the obstacle and front wall on right </center>
+
+<p align="center">Obstacle in front of the ROV at left and OctoMap of the obstacle and front wall on right </p>
 
 <br>
 
